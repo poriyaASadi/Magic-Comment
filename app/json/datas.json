@@ -1,0 +1,2486 @@
+[
+    {
+        "name": "Javascript",
+        "Data": [
+            {
+                "id": 1,
+                "path": "Javascript/nested-functions",
+                "key": "nested-functions",
+                "title": "Commenting Nested Functions in JavaScript",
+                "category": "functions",
+                "difficulty": "intermediate",
+                "tags": [
+                    "jsdoc",
+                    "clean-code",
+                    "functions",
+                    "readability"
+                ],
+                "description": "Nested functions can make code harder to follow. Proper commenting and JSDoc usage help maintain clarity and improve team collaboration.",
+                "references": [
+                    {
+                        "type": "JSDoc",
+                        "url": "https://jsdoc.app/tags-function.html",
+                        "title": "JSDoc: @function"
+                    },
+                    {
+                        "type": "JSDoc",
+                        "url": "https://jsdoc.app/tags-inner.html",
+                        "title": "JSDoc: @inner"
+                    },
+                    {
+                        "type": "MDN",
+                        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions",
+                        "title": "MDN: JavaScript Functions Guide"
+                    },
+                    {
+                        "type": "Stack Overflow",
+                        "url": "https://stackoverflow.com/questions/16344584/example-of-nested-functions-in-javascript",
+                        "title": "Example of Nested Functions in JS - Stack Overflow"
+                    },
+                    {
+                        "type": "Guide",
+                        "url": "https://www.freecodecamp.org/news/avoid-nested-functions-in-javascript/",
+                        "title": "Avoid Nested Functions? - freeCodeCamp"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@inner` to mark functions defined inside another function.",
+                    "Always document parameters and return values with `@param` and `@returns`.",
+                    "Keep nested functions small and focused.",
+                    "If logic becomes too complex, extract to a separate helper function."
+                ],
+                "examples": [
+                    {
+                        "title": "Basic Nested Function with JSDoc",
+                        "code": "/**\n * Calculates weighted average using nested reduce functions\n * @param {number[]} values - Array of numeric values\n * @param {number[]} weights - Array of corresponding weights\n * @returns {number} Weighted average\n */\nfunction calculateWeightedAverage(values, weights) {\n  /**\n   * @inner\n   * @param {number} sum\n   * @param {number} weight\n   * @returns {number}\n   */\n  const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);\n\n  /**\n   * @inner\n   * @param {number} acc\n   * @param {number} value\n   * @param {number} index\n   * @returns {number}\n   */\n  const weightedSum = values.reduce((acc, value, index) => {\n    return acc + value * weights[index];\n  }, 0);\n\n  return weightedSum / totalWeight;\n}",
+                        "explanation": "This example shows how to document inner functions using `@inner`. Each `reduce` callback is self-contained and clearly typed. This helps IDEs and teammates understand the logic without reverse-engineering."
+                    },
+                    {
+                        "title": "Nested Function with Closure",
+                        "code": "/**\n * Creates a counter with private state using closure\n * @returns {Object} Counter with increment and value methods\n */\nfunction createCounter() {\n  let count = 0;\n\n  /**\n   * @inner\n   * Increments the internal counter\n   */\n  function increment() {\n    count++;\n  }\n\n  /**\n   * @inner\n   * @returns {number} Current count value\n   */\n  function getValue() {\n    return count;\n  }\n\n  return { increment, getValue };\n}",
+                        "explanation": "Here, `increment` and `getValue` are inner functions that form a closure over `count`. Using `@inner` makes it clear these are not meant to be used outside. This pattern is common in module patterns and encapsulation."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "closures",
+                    "module-pattern",
+                    "helper-functions"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 2,
+                "path": "Javascript/helper-functions",
+                "key": "helper-functions",
+                "title": "Documenting Helper Functions with JSDoc",
+                "category": "functions",
+                "difficulty": "beginner",
+                "tags": [
+                    "jsdoc",
+                    "clean-code",
+                    "reusability",
+                    "documentation"
+                ],
+                "description": "Helper functions are reused across the codebase. Clear documentation ensures consistent and correct usage by all developers.",
+                "references": [
+                    {
+                        "type": "JSDoc",
+                        "url": "https://jsdoc.app/tags-param.html",
+                        "title": "JSDoc: @param"
+                    },
+                    {
+                        "type": "JSDoc",
+                        "url": "https://jsdoc.app/tags-returns.html",
+                        "title": "JSDoc: @returns"
+                    },
+                    {
+                        "type": "Airbnb Style Guide",
+                        "url": "https://github.com/airbnb/javascript#functions--declarations",
+                        "title": "Airbnb JavaScript Style Guide - Functions"
+                    },
+                    {
+                        "type": "MDN",
+                        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Helper_function",
+                        "title": "MDN: What is a Helper Function?"
+                    },
+                    {
+                        "type": "Stack Overflow",
+                        "url": "https://stackoverflow.com/questions/41506377/how-to-write-clean-helper-functions-in-javascript",
+                        "title": "How to write clean helper functions in JS?"
+                    }
+                ],
+                "best_practices": [
+                    "Always include `@param` with type and description.",
+                    "Use `@returns` even for `void` functions.",
+                    "Add `@example` to show real usage.",
+                    "Use `@throws` if the function can throw errors."
+                ],
+                "examples": [
+                    {
+                        "title": "Date Formatter Helper",
+                        "code": "/**\n * Formats a Date object to Persian calendar string\n * @param {Date} date - Input date\n * @returns {string} Formatted string like '1402/05/10'\n * @example\n *   formatToPersian(new Date('2023-07-22')) // returns '1402/05/10'\n */\nfunction formatToPersian(date) {\n  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };\n  return new Intl.DateTimeFormat('fa-IR', options)\n    .format(date)\n    .replace(/\\/g, '/');\n}",
+                        "explanation": "This helper is reusable and well-documented. The `@example` tag makes it easy for new developers to understand usage without reading the implementation."
+                    },
+                    {
+                        "title": "Validation Helper with Throws",
+                        "code": "/**\n * Validates email format\n * @param {string} email\n * @returns {boolean}\n * @throws {TypeError} If email is not a string\n * @example\n *   isValidEmail('user@example.com') // true\n *   isValidEmail(123) // throws TypeError\n */\nfunction isValidEmail(email) {\n  if (typeof email !== 'string') {\n    throw new TypeError('Email must be a string');\n  }\n  const regex = /^[^@]+@[^@]+\\.[^@]+$/;\n  return regex.test(email);\n}",
+                        "explanation": "This function throws an error on invalid input type. Documenting `@throws` helps callers handle exceptions properly. This is crucial in shared libraries."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "reusability",
+                    "validation",
+                    "utility-functions"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 3,
+                "path": "Javascript/module-documentation",
+                "key": "module-documentation",
+                "title": "Documenting JavaScript Modules with JSDoc",
+                "category": "modularity",
+                "difficulty": "intermediate",
+                "tags": [
+                    "jsdoc",
+                    "modules",
+                    "structure",
+                    "es6"
+                ],
+                "description": "Properly documenting modules helps teams understand the purpose and usage of each file, especially in large codebases.",
+                "references": [
+                    {
+                        "type": "JSDoc",
+                        "url": "https://jsdoc.app/tags-module.html",
+                        "title": "JSDoc: @module"
+                    },
+                    {
+                        "type": "MDN",
+                        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules",
+                        "title": "MDN: JavaScript Modules"
+                    },
+                    {
+                        "type": "Node.js Docs",
+                        "url": "https://nodejs.org/api/modules.html",
+                        "title": "Node.js Modules Documentation"
+                    },
+                    {
+                        "type": "Stack Overflow",
+                        "url": "https://stackoverflow.com/questions/43785856/how-to-document-es6-modules-with-jsdoc",
+                        "title": "How to document ES6 modules with JSDoc?"
+                    }
+                ],
+                "best_practices": [
+                    "Place `@module` at the top of the file.",
+                    "Use hierarchical naming (e.g., `utils/date`).",
+                    "Describe the module's responsibility clearly.",
+                    "Exported members inherit module context."
+                ],
+                "examples": [
+                    {
+                        "title": "Module with @module and Exports",
+                        "code": "/**\n * @module utils/math\n * @description Mathematical utility functions for calculations\n * Includes sum, average, and standard deviation.\n */\n\n/**\n * Sums all numbers in an array\n * @param {number[]} numbers\n * @returns {number}\n */\nexport function sum(numbers) {\n  return numbers.reduce((a, b) => a + b, 0);\n}\n\n/**\n * Calculates average of numbers\n * @param {number[]} numbers\n * @returns {number}\n */\nexport function average(numbers) {\n  return numbers.length ? sum(numbers) / numbers.length : 0;\n}",
+                        "explanation": "The `@module` tag defines the file's role. Tools like JSDoc or TypeDoc use this to generate structured documentation. The hierarchical name `utils/math` reflects the file path."
+                    }
+                ],
+                "image_url": "https://miro.medium.com/v2/resize:fit:1400/1*QxZbZ1K6m8k6v8Gq1Jjz7g.png",
+                "related_topics": [
+                    "es6-modules",
+                    "file-structure",
+                    "documentation-tools"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            }
+        ]
+    },
+    {
+        "name": "Vue.js",
+        "Data": [
+            {
+                "id": 1,
+                "path": "vue/reactivity",
+                "key" : "reactivity",
+                "title": "Documenting Reactivity in Vue 3 with Composition API",
+                "category": "reactivity",
+                "difficulty": "intermediate",
+                "tags": [
+                    "vue3",
+                    "composition-api",
+                    "reactivity",
+                    "jsdoc"
+                ],
+                "description": "Vue 3's reactivity system is powerful but can be hard to trace. Clear commenting and JSDoc help teammates understand when and why state updates.",
+                "references": [
+                    {
+                        "type": "Vue Docs",
+                        "url": "https://vuejs.org/guide/essentials/reactivity-fundamentals.html",
+                        "title": "Vue 3 Reactivity Fundamentals"
+                    },
+                    {
+                        "type": "Vue Docs",
+                        "url": "https://vuejs.org/api/reactivity-core.html#ref",
+                        "title": "Vue 3 Reactivity API - ref, reactive"
+                    },
+                    {
+                        "type": "Stack Overflow",
+                        "url": "https://stackoverflow.com/questions/64793883/what-is-the-difference-between-ref-and-reactive-in-vue-3",
+                        "title": "ref vs reactive in Vue 3 - SO"
+                    },
+                    {
+                        "type": "Vue School",
+                        "url": "https://vueschool.io/articles/vuejs-tutorials/understanding-reactivity-in-vue-3/",
+                        "title": "Understanding Reactivity in Vue 3 - Vue School"
+                    }
+                ],
+                "best_practices": [
+                    "Use JSDoc to describe reactive state purpose.",
+                    "Comment why a value is `ref()` or `reactive()`.",
+                    "Avoid deeply nested reactive objects without explanation.",
+                    "Use `// NOTE:` to explain reactivity side effects."
+                ],
+                "examples": [
+                    {
+                        "title": "Reactive State with JSDoc",
+                        "code": "/**\n * User form state with reactivity\n * @type {Ref<{ name: string, email: string }>} \n */\nconst form = ref({\n  name: '',\n  email: ''\n});\n\n/**\n * Tracks if form is submitting to disable UI\n * @type {Ref<boolean>}\n */\nconst isSubmitting = ref(false);",
+                        "explanation": "Using `@type {Ref<T>}` helps TypeScript and IDEs understand the type. Comments explain the UI purpose of each reactive variable."
+                    }
+                ],
+                "image_url": "https://vuejs.org/assets/reactivity.6ebef865.png",
+                "related_topics": [
+                    "composition-api",
+                    "ref",
+                    "reactive"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 2,
+                "path": "vue/composables",
+                "key" : "composables",
+                "title": "Documenting Custom Composables in Vue",
+                "category": "composables",
+                "difficulty": "intermediate",
+                "tags": [
+                    "vue3",
+                    "composables",
+                    "reusability",
+                    "jsdoc"
+                ],
+                "description": "Composables are Vue's version of reusable logic. Proper documentation ensures they can be safely used across components.",
+                "references": [
+                    {
+                        "type": "Vue Docs",
+                        "url": "https://vuejs.org/guide/reusable/composables.html",
+                        "title": "Vue 3 Composables Guide"
+                    },
+                    {
+                        "type": "Vue Use",
+                        "url": "https://vueuse.org/",
+                        "title": "VueUse - Collection of Composables"
+                    },
+                    {
+                        "type": "GitHub",
+                        "url": "https://github.com/vuejs/core/tree/main/packages/vue/examples/composition",
+                        "title": "Vue Core Composables Examples"
+                    }
+                ],
+                "best_practices": [
+                    "Always document input parameters and return values.",
+                    "Use `@param` and `@returns` in JSDoc.",
+                    "Add `@example` usage in a component.",
+                    "Prefix composable names with `use` (e.g., `useFetch`)."
+                ],
+                "examples": [
+                    {
+                        "title": "useWindowSize Composable",
+                        "code": "/**\n * Tracks window size dynamically\n * @returns {Object} width and height refs\n * @example\n *   const { width, height } = useWindowSize();\n *   // Use in template: {{ width }}px\n */\nexport function useWindowSize() {\n  const width = ref(window.innerWidth);\n  const height = ref(window.innerHeight);\n\n  const update = () => {\n    width.value = window.innerWidth;\n    height.value = window.innerHeight;\n  };\n\n  onMounted(() => window.addEventListener('resize', update));\n  onUnmounted(() => window.removeEventListener('resize', update));\n\n  return { width, height };\n}",
+                        "explanation": "This composable is well-documented with `@returns` and `@example`. It's clear how to use it in a component. The cleanup logic is also obvious."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "hooks",
+                    "reusable-logic",
+                    "composition-api"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 3,
+                "path": "vue/component-props",
+                "key" : "component-props",
+                "title": "Documenting Props in Vue Components",
+                "category": "components",
+                "difficulty": "beginner",
+                "tags": [
+                    "props",
+                    "components",
+                    "validation",
+                    "jsdoc"
+                ],
+                "description": "Props are the API of your component. Clear documentation ensures correct usage and prevents bugs.",
+                "references": [
+                    {
+                        "type": "Vue Docs",
+                        "url": "https://vuejs.org/guide/components/props.html",
+                        "title": "Vue Props Guide"
+                    },
+                    {
+                        "type": "Stack Overflow",
+                        "url": "https://stackoverflow.com/questions/44291826/vue-js-how-to-document-props",
+                        "title": "How to document props in Vue?"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@prop`-style comments above props.",
+                    "Always define `type`, `required`, and `default`.",
+                    "Add `@example` for complex props like objects.",
+                    "Use `@deprecated` if a prop is being phased out."
+                ],
+                "examples": [
+                    {
+                        "title": "Button Component with Typed Props",
+                        "code": "/**\n * @vueProps\n * @property {String} label - Text to display on button\n * @property {String} [size='medium'] - 'small' | 'medium' | 'large'\n * @property {Boolean} [disabled=false] - Disables interaction\n * @property {Function} onClick - Callback when clicked\n */\nconst props = defineProps({\n  label: {\n    type: String,\n    required: true\n  },\n  size: {\n    type: String,\n    default: 'medium',\n    validator: (v) => ['small', 'medium', 'large'].includes(v)\n  },\n  disabled: {\n    type: Boolean,\n    default: false\n  },\n  onClick: {\n    type: Function,\n    required: true\n  }\n});",
+                        "explanation": "Even though Vue doesn't use JSDoc for props natively, adding structured comments helps team members. The validator and defaults are well-documented."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "components",
+                    "type-checking",
+                    "design-system"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 4,
+                "path": "vue/emits",
+                "key" : "emits",
+                "title": "Documenting Emits in Vue Components",
+                "category": "components",
+                "difficulty": "beginner",
+                "tags": [
+                    "emits",
+                    "events",
+                    "components",
+                    "communication"
+                ],
+                "description": "Emits are how child components communicate with parents. Documenting them prevents misuse and improves maintainability.",
+                "references": [
+                    {
+                        "type": "Vue Docs",
+                        "url": "https://vuejs.org/guide/components/events.html",
+                        "title": "Vue Emits Guide"
+                    },
+                    {
+                        "type": "Stack Overflow",
+                        "url": "https://stackoverflow.com/questions/62655953/how-to-document-emits-in-vue-3",
+                        "title": "How to document emits in Vue 3?"
+                    }
+                ],
+                "best_practices": [
+                    "List all emits with `@emits` in comments.",
+                    "Describe payload structure if any.",
+                    "Use `defineEmits` with type-safe strings.",
+                    "Avoid magic strings like 'update'."
+                ],
+                "examples": [
+                    {
+                        "title": "Form Input with Custom Emit",
+                        "code": "/**\n * @emits input - Triggered when user types\n * @payload {string} value - The new input value\n * @emits focus - When input gains focus\n * @emits blur - When input loses focus\n */\nconst emit = defineEmits(['input', 'focus', 'blur']);\n\nfunction onInput(e) {\n  emit('input', e.target.value);\n}\n\nfunction onFocus() {\n  emit('focus');\n}\n\nfunction onBlur() {\n  emit('blur');\n}",
+                        "explanation": "The `@emits` block clearly shows what events are fired and what data they carry. This is crucial for parent components relying on this behavior."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "events",
+                    "parent-child",
+                    "forms"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 5,
+                "path": "vue/define-options",
+                "key" : "define-options",
+                "title": "Documenting Component Options with defineOptions",
+                "category": "components",
+                "difficulty": "advanced",
+                "tags": [
+                    "defineOptions",
+                    "script-setup",
+                    "documentation"
+                ],
+                "description": "With `defineOptions`, you can set name, inheritAttrs, etc. in `<script setup>`. Documenting them improves clarity.",
+                "references": [
+                    {
+                        "type": "Vue Macros",
+                        "url": "https://vue-macros.sxzz.moe/macros/define-options.html",
+                        "title": "defineOptions Macro"
+                    }
+                ],
+                "best_practices": [
+                    "Use `defineOptions` only when needed (e.g., devtools, HOC).",
+                    "Comment why `inheritAttrs: false` is used.",
+                    "Document component `name` for debugging."
+                ],
+                "examples": [
+                    {
+                        "title": "Custom Input with defineOptions",
+                        "code": "/**\n * @component CustomInput\n * @description A reusable input with icon support\n * @note inheritAttrs: false to control $attrs manually\n */\n\ndeclare const defineOptions: any;\n\ndefineOptions({\n  name: 'CustomInput',\n  inheritAttrs: false\n});",
+                        "explanation": "`defineOptions` is not standard in Vue yet (requires macros), so commenting why it's used is essential. The `name` helps in Vue Devtools."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "script-setup",
+                    "macros",
+                    "devtools"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 6,
+                "path": "vue/typescript-integration",
+                "key" : "typescript-integration",
+                "title": "Documenting Vue Components with TypeScript and JSDoc",
+                "category": "typescript",
+                "difficulty": "advanced",
+                "tags": [
+                    "typescript",
+                    "vue3",
+                    "jsdoc",
+                    "type-safety"
+                ],
+                "description": "Using TypeScript in Vue improves type safety. JSDoc complements it by documenting intent and usage.",
+                "references": [
+                    {
+                        "type": "Vue TypeScript",
+                        "url": "https://vuejs.org/guide/typescript/overview.html",
+                        "title": "Vue + TypeScript Guide"
+                    },
+                    {
+                        "type": "TypeDoc",
+                        "url": "https://typedoc.org/",
+                        "title": "TypeDoc for TypeScript Documentation"
+                    }
+                ],
+                "best_practices": [
+                    "Use `interface` or `type` for props and emits.",
+                    "Add JSDoc even when types are clear.",
+                    "Document complex generics or utility types."
+                ],
+                "examples": [
+                    {
+                        "title": "Typed Composable with Generics",
+                        "code": "/**\n * Fetches data with error handling\n * @template T\n * @param {string} url\n * @returns {Ref<T | null>}\n */\nexport function useFetch<T>(url: string) {\n  const data = ref<T | null>(null);\n  const error = ref<string | null>(null);\n\n  fetch(url)\n    .then(res => res.json())\n    .then(json => data.value = json)\n    .catch(err => error.value = err.message);\n\n  return { data, error };\n}",
+                        "explanation": "The `@template T` tells TypeDoc and IDEs about the generic. This composable can be reused with different data shapes safely."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "generics",
+                    "type-safety",
+                    "api-calls"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 7,
+                "path": "vue/lifecycle-hooks",
+                "key" : "lifecycle-hooks",
+                "title": "Commenting Lifecycle Hooks in Vue",
+                "category": "components",
+                "difficulty": "beginner",
+                "tags": [
+                    "lifecycle",
+                    "onMounted",
+                    "onUnmounted",
+                    "clean-code"
+                ],
+                "description": "Lifecycle hooks are critical for side effects. Comments should explain why a hook is used, not just what it does.",
+                "references": [
+                    {
+                        "type": "Vue Docs",
+                        "url": "https://vuejs.org/guide/essentials/lifecycle.html",
+                        "title": "Vue Lifecycle Hooks"
+                    }
+                ],
+                "best_practices": [
+                    "Comment the purpose of the hook, not just the code.",
+                    "Use `// CLEANUP:` to mark event listener removal.",
+                    "Avoid complex logic without explanation."
+                ],
+                "examples": [
+                    {
+                        "title": "Chart Component with Cleanup",
+                        "code": "// Initialize chart when component mounts\nonMounted(() => {\n  chart = new Chart(ctx, config);\n});\n\n// CLEANUP: Remove chart instance and listeners\nonUnmounted(() => {\n  if (chart) {\n    chart.destroy();\n  }\n});",
+                        "explanation": "The comments explain not just *when* but *why* we destroy the chart. This prevents memory leaks and helps new devs."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "side-effects",
+                    "memory-leak",
+                    "plugins"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 8,
+                "path": "vue/v-model",
+                "key" : "v-model",
+                "title": "Documenting Custom v-model in Vue",
+                "category": "components",
+                "difficulty": "intermediate",
+                "tags": [
+                    "v-model",
+                    "two-way-binding",
+                    "props",
+                    "emits"
+                ],
+                "description": "Custom `v-model` requires careful prop and emit coordination. Documentation prevents misuse.",
+                "references": [
+                    {
+                        "type": "Vue Docs",
+                        "url": "https://vuejs.org/guide/components/v-model.html",
+                        "title": "Custom v-model"
+                    }
+                ],
+                "best_practices": [
+                    "Clearly document `modelValue` and `update:modelValue`.",
+                    "Use `@default` if a default is provided.",
+                    "Mention if multiple v-models are supported."
+                ],
+                "examples": [
+                    {
+                        "title": "Custom Toggle with v-model",
+                        "code": "/**\n * @prop {Boolean} modelValue - Bound value via v-model\n * @emits update:modelValue - Updates the bound value\n * @example\n *   <Toggle v-model=\"isOn\" />\n */\nconst props = defineProps(['modelValue']);\nconst emit = defineEmits(['update:modelValue']);\n\nconst toggle = () => {\n  emit('update:modelValue', !props.modelValue);\n};",
+                        "explanation": "The `v-model` mechanism is not obvious from code alone. JSDoc explains the contract between parent and child."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "two-way-binding",
+                    "form-controls",
+                    "inputs"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 9,
+                "path": "vue/plugins",
+                "key" : "plugins",
+                "title": "Documenting Vue Plugins and Installers",
+                "category": "architecture",
+                "difficulty": "advanced",
+                "tags": [
+                    "plugins",
+                    "app",
+                    "install",
+                    "global"
+                ],
+                "description": "Plugins extend global behavior. They must be well-documented to avoid side effects and misuse.",
+                "references": [
+                    {
+                        "type": "Vue Docs",
+                        "url": "https://vuejs.org/guide/reusability/plugins.html",
+                        "title": "Vue Plugins Guide"
+                    }
+                ],
+                "best_practices": [
+                    "Document what the plugin adds (globals, directives, etc.).",
+                    "Use `@param` for plugin options.",
+                    "Mention if it modifies Vue prototype."
+                ],
+                "examples": [
+                    {
+                        "title": "Analytics Plugin",
+                        "code": "/**\n * Vue plugin for analytics tracking\n * @param {App} app\n * @param {Object} options\n * @param {string} options.apiKey\n * @param {boolean} [options.debug=false]\n */\nconst AnalyticsPlugin = {\n  install(app, options) {\n    app.config.globalProperties.$analytics = {\n      track(event) {\n        console.log('[Analytics]', event, options.apiKey);\n      }\n    };\n  }\n};\n\napp.use(AnalyticsPlugin, { apiKey: '123' });",
+                        "explanation": "The plugin's `install` method is documented with parameters and behavior. This helps users know what globals are added."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "global-properties",
+                    "third-party",
+                    "telemetry"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 10,
+                "path": "vue/testing-utilities",
+                "key" : "testing-utilities",
+                "title": "Documenting Test Utilities in Vue Projects",
+                "category": "testing",
+                "difficulty": "intermediate",
+                "tags": [
+                    "testing",
+                    "vitest",
+                    "vue-test-utils",
+                    "documentation"
+                ],
+                "description": "Test utilities are often under-documented. Clear comments help new contributors write better tests.",
+                "references": [
+                    {
+                        "type": "Vue Test Utils",
+                        "url": "https://test-utils.vuejs.org/",
+                        "title": "Vue Test Utils"
+                    },
+                    {
+                        "type": "Vitest",
+                        "url": "https://vitest.dev/",
+                        "title": "Vitest Testing Framework"
+                    }
+                ],
+                "best_practices": [
+                    "Document mock setup and reset logic.",
+                    "Explain why certain components are stubbed.",
+                    "Use `@test` or `// TEST:` for test-specific notes."
+                ],
+                "examples": [
+                    {
+                        "title": "Test Utility for Mounting Components",
+                        "code": "/**\n * Helper to mount components with global mocks\n * @param {Component} component\n * @param {Object} props\n * @returns {VueWrapper}\n */\nexport function mountWithMocks(component, props = {}) {\n  return mount(component, {\n    props,\n    global: {\n      mocks: {\n        $api: { fetchUser: () => Promise.resolve({}) }\n      }\n    }\n  });\n}",
+                        "explanation": "This utility is used across tests. Without documentation, it's hard to know what's mocked and why. JSDoc clarifies the API."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "unit-testing",
+                    "mocking",
+                    "ci-cd"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            }
+        ]
+    },
+    {
+        "name": "Nuxt.js",
+        "Data": [
+            {
+                "id": 1,
+                "path": "nuxt/composables",
+                "key": "composables",
+                "title": "Documenting Custom Composables in Nuxt 3",
+                "category": "composables",
+                "difficulty": "intermediate",
+                "tags": [
+                    "composables",
+                    "use",
+                    "reusability",
+                    "auto-import",
+                    "jsdoc"
+                ],
+                "description": "Nuxt 3 auto-imports composables from `~/composables`. Clear documentation ensures they are used correctly and consistently.",
+                "references": [
+                    {
+                        "type": "Nuxt Docs",
+                        "url": "https://nuxt.com/docs/guide/directory-structure/composables",
+                        "title": "Nuxt 3: Composables Directory"
+                    },
+                    {
+                        "type": "Stack Overflow",
+                        "url": "https://stackoverflow.com/questions/73538654/how-to-document-composables-in-nuxt-3",
+                        "title": "How to document composables in Nuxt 3?"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@param` and `@returns` in JSDoc for all composables.",
+                    "Add `@example` to show usage in components or other composables.",
+                    "Prefix with `use` (e.g., `useApi`, `useAuth`).",
+                    "Avoid side effects at module load time."
+                ],
+                "examples": [
+                    {
+                        "title": "useTheme Composable",
+                        "code": "/**\n * Manages UI theme (light/dark)\n * @returns {{ theme: Ref<string>, toggleTheme: () => void }}\n * @example\n *   const { theme, toggleTheme } = useTheme();\n *   // Use in template: {{ theme }}\n */\nexport const useTheme = () => {\n  const theme = useCookie('theme', { default: () => 'light' });\n\n  const toggleTheme = () => {\n    theme.value = theme.value === 'light' ? 'dark' : 'light';\n  };\n\n  return { theme, toggleTheme };\n};",
+                        "explanation": "This composable uses `useCookie` for persistence. The JSDoc explains return values and includes a usage example. Nuxt auto-imports it from `composables/`."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "reactivity",
+                    "cookies",
+                    "ui"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 2,
+                "path": "nuxt/define-page-meta",
+                "key": "define-page-meta",
+                "title": "Documenting Page Metadata with definePageMeta",
+                "category": "pages",
+                "difficulty": "beginner",
+                "tags": [
+                    "seo",
+                    "meta",
+                    "routing",
+                    "middleware",
+                    "documentation"
+                ],
+                "description": "`definePageMeta` sets route-level metadata. Comments should explain SEO, auth, and layout behavior.",
+                "references": [
+                    {
+                        "type": "Nuxt Docs",
+                        "url": "https://nuxt.com/docs/api/utils/define-page-meta",
+                        "title": "Nuxt 3: definePageMeta"
+                    }
+                ],
+                "best_practices": [
+                    "Comment why `auth` or `middleware` is required.",
+                    "Explain SEO-related fields like `title` and `description`.",
+                    "Use `// NOTE:` for layout decisions."
+                ],
+                "examples": [
+                    {
+                        "title": "Protected Admin Page",
+                        "code": "/**\n * Admin dashboard page\n * @note Requires admin role\n * @meta { title: 'Admin Dashboard', middleware: 'auth', layout: 'admin' }\n */\ndefinePageMeta({\n  title: 'Admin Dashboard',\n  middleware: 'auth',\n  layout: 'admin',\n  // Only accessible to users with admin role\n  requireAdmin: true\n});",
+                        "explanation": "The comment explains that this page requires special access. The `@meta` tag summarizes key behavior. This helps other developers understand routing logic."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "seo",
+                    "authentication",
+                    "layouts"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 3,
+                "path": "nuxt/server-routes",
+                "key": "server-routes",
+                "title": "Documenting Server Routes in Nuxt 3",
+                "category": "backend",
+                "difficulty": "intermediate",
+                "tags": [
+                    "server",
+                    "api",
+                    "routes",
+                    "handlers",
+                    "jsdoc"
+                ],
+                "description": "Server routes in `~/server/routes` act as API endpoints. They must be well-documented for backend clarity.",
+                "references": [
+                    {
+                        "type": "Nuxt Docs",
+                        "url": "https://nuxt.com/docs/guide/directory-structure/server",
+                        "title": "Nuxt 3: Server Directory"
+                    }
+                ],
+                "best_practices": [
+                    "Use JSDoc to describe request and response structure.",
+                    "Document expected query/body parameters.",
+                    "Mention required authentication or validation.",
+                    "Use `@example` for cURL or fetch usage."
+                ],
+                "examples": [
+                    {
+                        "title": "GET /api/user/[id]",
+                        "code": "// server/routes/user/[id].get.ts\n/**\n * Fetches user by ID\n * @param {import('h3').H3Event} event\n * @returns {Promise<{ user: User } | { error: string }>} \n * @example\n *   fetch('/api/user/123').then(r => r.json())\n */\nexport default defineEventHandler(async (event) => {\n  const { id } = event.context.params;\n  const user = await User.findById(id);\n\n  if (!user) {\n    return { error: 'User not found' };\n  }\n\n  return { user };\n});",
+                        "explanation": "The handler is documented with input, output, and example usage. This is essential for frontend developers consuming the API."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "api",
+                    "backend",
+                    "h3"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 4,
+                "path": "nuxt/define-middleware",
+                "key": "define-middleware",
+                "title": "Documenting Custom Middleware in Nuxt",
+                "category": "routing",
+                "difficulty": "intermediate",
+                "tags": [
+                    "middleware",
+                    "auth",
+                    "guards",
+                    "routing",
+                    "jsdoc"
+                ],
+                "description": "Middleware runs before navigation. Documentation should explain when and why it blocks or redirects.",
+                "references": [
+                    {
+                        "type": "Nuxt Docs",
+                        "url": "https://nuxt.com/docs/guide/directory-structure/middleware",
+                        "title": "Nuxt 3: Middleware"
+                    }
+                ],
+                "best_practices": [
+                    "Explain the condition under which it runs.",
+                    "Document redirect paths.",
+                    "Use `// AUTH:` or `// GUARD:` for clarity."
+                ],
+                "examples": [
+                    {
+                        "title": "Auth Middleware",
+                        "code": "// middleware/auth.ts\n/**\n * Redirects unauthenticated users to login\n * @param {import('#app').NavigateTo} navigateTo\n * @note Used in protected pages\n */\nexport default defineNuxtRouteMiddleware((to, from) => {\n  const user = useSupabaseUser();\n\n  // AUTH: If no user, redirect to login\n  if (!user.value) {\n    return navigateTo('/login');\n  }\n});",
+                        "explanation": "The `// AUTH:` comment makes the purpose obvious. The `@note` explains where this middleware is used. This prevents misuse."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "authentication",
+                    "navigation",
+                    "guards"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 5,
+                "path": "nuxt/define-props",
+                "key": "define-props",
+                "title": "Documenting Props in Nuxt Components",
+                "category": "components",
+                "difficulty": "beginner",
+                "tags": [
+                    "props",
+                    "components",
+                    "vue",
+                    "typescript",
+                    "jsdoc"
+                ],
+                "description": "Props define component APIs. In Nuxt, they should be documented clearly for reusability across pages.",
+                "references": [
+                    {
+                        "type": "Vue Docs",
+                        "url": "https://vuejs.org/guide/components/props.html",
+                        "title": "Vue: Props"
+                    }
+                ],
+                "best_practices": [
+                    "Use JSDoc above `defineProps`.",
+                    "Explain default values and validation.",
+                    "Use `@example` for complex props."
+                ],
+                "examples": [
+                    {
+                        "title": "Card Component with Props",
+                        "code": "/**\n * @prop {string} title - Main heading\n * @prop {string} [variant='primary'] - 'primary' | 'secondary'\n * @prop {boolean} [elevated=false] - Adds shadow\n * @example\n *   <Card title=\"Welcome\" variant=\"secondary\" />\n */\nconst props = defineProps({\n  title: String,\n  variant: {\n    type: String,\n    default: 'primary',\n    validator: (v) => ['primary', 'secondary'].includes(v)\n  },\n  elevated: Boolean\n});",
+                        "explanation": "Even though Nuxt uses Vue, props still need clear documentation. The `@example` helps designers and junior devs use the component correctly."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "components",
+                    "design-system",
+                    "ui"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 6,
+                "path": "nuxt/useState",
+                "key": "useState",
+                "title": "Documenting Shared State with useState",
+                "category": "state-management",
+                "difficulty": "intermediate",
+                "tags": [
+                    "state",
+                    "reactivity",
+                    "shared",
+                    "hydration",
+                    "jsdoc"
+                ],
+                "description": "`useState` creates globally shared reactive state. Documentation should explain scope and persistence.",
+                "references": [
+                    {
+                        "type": "Nuxt Docs",
+                        "url": "https://nuxt.com/docs/api/composables/use-state",
+                        "title": "Nuxt 3: useState"
+                    }
+                ],
+                "best_practices": [
+                    "Use a unique key for each state piece.",
+                    "Comment why state is shared (e.g., theme, cart).",
+                    "Explain SSR hydration behavior."
+                ],
+                "examples": [
+                    {
+                        "title": "Shopping Cart State",
+                        "code": "/**\n * Shared cart state across pages\n * @note Hydrated on client after SSR\n * @returns {Ref<{ items: CartItem[] }>} \n */\nexport const useCart = () => {\n  return useState('cart', () => ({\n    items: []\n  }));\n};",
+                        "explanation": "The `@note` explains hydration, which is critical in Nuxt. The key `'cart'` must be unique. This prevents state collision."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "ssr",
+                    "hydration",
+                    "cart"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 7,
+                "path": "nuxt/useFetch",
+                "key": "useFetch",
+                "title": "Documenting Data Fetching with useFetch",
+                "category": "data-fetching",
+                "difficulty": "intermediate",
+                "tags": [
+                    "useFetch",
+                    "api",
+                    "async",
+                    "ssr",
+                    "jsdoc"
+                ],
+                "description": "`useFetch` simplifies data fetching. Comments should explain endpoint, caching, and error handling.",
+                "references": [
+                    {
+                        "type": "Nuxt Docs",
+                        "url": "https://nuxt.com/docs/api/composables/use-fetch",
+                        "title": "Nuxt 3: useFetch"
+                    }
+                ],
+                "best_practices": [
+                    "Document the API endpoint and response shape.",
+                    "Explain `server: false` if client-only.",
+                    "Use `// CACHE:` or `// SSR:` for behavior notes."
+                ],
+                "examples": [
+                    {
+                        "title": "Fetching Blog Posts",
+                        "code": "/**\n * Loads blog posts from API\n * @returns {AsyncData<Post[], Error>}\n * @note Runs on server (SSR) by default\n * @see https://api.example.com/docs/posts\n */\nconst { data, pending, error } = await useFetch('/api/posts', {\n  method: 'GET',\n  // Caches for 5 minutes\n  headers: { 'Cache-Control': 'max-age=300' }\n});",
+                        "explanation": "The `@note` explains SSR behavior. The `@see` links to API docs. This helps developers understand performance and caching."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "ssr",
+                    "api",
+                    "performance"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 8,
+                "path": "nuxt/plugins",
+                "key": "plugins",
+                "title": "Documenting Nuxt Plugins",
+                "category": "architecture",
+                "difficulty": "advanced",
+                "tags": [
+                    "plugins",
+                    "global",
+                    "inject",
+                    "setup",
+                    "jsdoc"
+                ],
+                "description": "Plugins extend Nuxt app. They must be documented to avoid side effects and ensure correct setup.",
+                "references": [
+                    {
+                        "type": "Nuxt Docs",
+                        "url": "https://nuxt.com/docs/guide/directory-structure/plugins",
+                        "title": "Nuxt 3: Plugins"
+                    }
+                ],
+                "best_practices": [
+                    "Explain what the plugin injects (e.g., `$api`).",
+                    "Mention if it runs on client/server/both.",
+                    "Use `// INJECT:` to mark global additions."
+                ],
+                "examples": [
+                    {
+                        "title": "Analytics Plugin",
+                        "code": "// plugins/analytics.ts\n/**\n * Injects $analytics for tracking events\n * @param {import('#app').NuxtApp} nuxtApp\n * @example\n *   nuxtApp.$analytics.track('page_view')\n */\nexport default defineNuxtPlugin(() => {\n  return {\n    provide: {\n      analytics: {\n        track: (event: string) => {\n          console.log('[Analytics]', event);\n        }\n      }\n    }\n  };\n});",
+                        "explanation": "The plugin injects `$analytics`. The `@example` shows how to use it. This is critical for team adoption and consistency."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "global-properties",
+                    "third-party",
+                    "telemetry"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 9,
+                "path": "nuxt/define-constants",
+                "key": "define-constants",
+                "title": "Documenting Constants and Config in Nuxt",
+                "category": "configuration",
+                "difficulty": "beginner",
+                "tags": [
+                    "constants",
+                    "config",
+                    "env",
+                    "runtime",
+                    "jsdoc"
+                ],
+                "description": "Nuxt uses `runtimeConfig` for environment variables. Constants should be documented to clarify usage.",
+                "references": [
+                    {
+                        "type": "Nuxt Docs",
+                        "url": "https://nuxt.com/docs/guide/going-further/runtime-config",
+                        "title": "Nuxt 3: Runtime Config"
+                    }
+                ],
+                "best_practices": [
+                    "Use `// CONFIG:` to mark config usage.",
+                    "Explain public vs private env vars.",
+                    "Document fallback values."
+                ],
+                "examples": [
+                    {
+                        "title": "API Configuration",
+                        "code": "// Define in nuxt.config.ts\n/**\n * @note Public key exposed to browser\n * @note Private key only available server-side\n */\nexport default defineNuxtConfig({\n  runtimeConfig: {\n    public: {\n      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'https://api.example.com'\n    },\n    apiSecret: process.env.API_SECRET // Only server\n  }\n});",
+                        "explanation": "The comments explain security boundaries. Public keys are safe for client, private ones are not. This prevents accidental leaks."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "security",
+                    "environment",
+                    "deployment"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 10,
+                "path": "nuxt/error-handling",
+                "key": "error-handling",
+                "title": "Documenting Error Handling in Nuxt 3",
+                "category": "error-handling",
+                "difficulty": "intermediate",
+                "tags": [
+                    "error",
+                    "handling",
+                    "useError",
+                    "surfaces",
+                    "jsdoc"
+                ],
+                "description": "Nuxt provides `useError` and error surfaces. Documentation should explain how errors are caught and displayed.",
+                "references": [
+                    {
+                        "type": "Nuxt Docs",
+                        "url": "https://nuxt.com/docs/guide/features/error-handling",
+                        "title": "Nuxt 3: Error Handling"
+                    }
+                ],
+                "best_practices": [
+                    "Document when `useError` is called.",
+                    "Explain custom error page logic.",
+                    "Use `// ERROR:` to mark error paths."
+                ],
+                "examples": [
+                    {
+                        "title": "Throwing Error in Page",
+                        "code": "/**\n * Throws 404 if user not found\n * @note Triggers error page with message\n */\nif (!user.value) {\n  showError({\n    statusCode: 404,\n    statusMessage: 'User not found',\n    fatal: false\n  });\n}",
+                        "explanation": "The `@note` explains that this will show the error page. `fatal: false` means navigation continues. This helps debug UX behavior."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "ux",
+                    "debugging",
+                    "pages"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            }
+        ]
+    },
+    {
+        "name": "React.js",
+        "Data": [
+            {
+                "id": 1,
+                "path": "react/props",
+                "key" : "props",
+                "title": "Documenting Component Props in React",
+                "category": "components",
+                "difficulty": "beginner",
+                "tags": [
+                    "props",
+                    "components",
+                    "jsdoc",
+                    "typescript",
+                    "clean-code"
+                ],
+                "description": "Props are the API of your React component. Clear documentation ensures correct usage and prevents bugs in large teams.",
+                "references": [
+                    {
+                        "type": "React Docs",
+                        "url": "https://react.dev/learn/passing-props-to-a-component",
+                        "title": "React: Passing Props to a Component"
+                    },
+                    {
+                        "type": "Stack Overflow",
+                        "url": "https://stackoverflow.com/questions/41374572/how-to-document-props-in-react-components",
+                        "title": "How to document props in React components?"
+                    },
+                    {
+                        "type": "TypeScript",
+                        "url": "https://www.typescriptlang.org/docs/handbook/jsx.html",
+                        "title": "TypeScript Handbook: JSX"
+                    }
+                ],
+                "best_practices": [
+                    "Use JSDoc to describe each prop's purpose and type.",
+                    "For TypeScript, prefer interfaces over `any`.",
+                    "Add default values and mark optional props clearly.",
+                    "Use `@example` to show usage in JSX."
+                ],
+                "examples": [
+                    {
+                        "title": "Button Component with JSDoc and TypeScript",
+                        "code": "/**\n * Reusable button with size and click handler\n * @param {Object} props\n * @param {string} props.label - Text displayed on the button\n * @param {'small' | 'medium' | 'large'} [props.size='medium'] - Button size\n * @param {boolean} [props.disabled=false] - Disables interaction\n * @param {() => void} props.onClick - Callback when clicked\n * @example\n *   <Button label=\"Submit\" onClick={handleSubmit} />\n */\ninterface ButtonProps {\n  label: string;\n  size?: 'small' | 'medium' | 'large';\n  disabled?: boolean;\n  onClick: () => void;\n}\n\nexport function Button({ label, size = 'medium', disabled = false, onClick }: ButtonProps) {\n  return (\n    <button\n      className={`btn btn-${size}`} \n      onClick={onClick} \n      disabled={disabled}\n    >\n      {label}\n    </button>\n  );\n}",
+                        "explanation": "This component uses TypeScript for type safety and JSDoc for human-readable documentation. The `@example` helps new developers understand usage without reading implementation."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "components",
+                    "typescript",
+                    "design-system"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 2,
+                "path": "react/hooks",
+                "key" : "hooks",
+                "title": "Documenting Custom Hooks in React",
+                "category": "hooks",
+                "difficulty": "intermediate",
+                "tags": [
+                    "custom-hooks",
+                    "reusability",
+                    "jsdoc",
+                    "clean-code"
+                ],
+                "description": "Custom hooks encapsulate reusable logic. Proper documentation ensures they are used correctly and safely across components.",
+                "references": [
+                    {
+                        "type": "React Docs",
+                        "url": "https://react.dev/learn/reusing-logic-with-custom-hooks",
+                        "title": "React: Reusing Logic with Custom Hooks"
+                    },
+                    {
+                        "type": "OverReact",
+                        "url": "https://overreacted.io/",
+                        "title": "Overreacted - Dan Abramov's Blog"
+                    },
+                    {
+                        "type": "Stack Overflow",
+                        "url": "https://stackoverflow.com/questions/61002328/how-to-document-custom-react-hooks",
+                        "title": "How to document custom React hooks?"
+                    }
+                ],
+                "best_practices": [
+                    "Always document input parameters and return values.",
+                    "Explain side effects (e.g., subscriptions, cleanup).",
+                    "Use `@example` to show usage in a component.",
+                    "Prefix with `use` (e.g., `useFetch`)."
+                ],
+                "examples": [
+                    {
+                        "title": "useWindowSize Hook",
+                        "code": "/**\n * Tracks browser window size\n * @returns {{ width: number, height: number }} Current window dimensions\n * @example\n *   function MyComponent() {\n *     const { width, height } = useWindowSize();\n *     return <div>Size: {width}x{height}</div>;\n *   }\n */\nimport { useState, useEffect } from 'react';\n\nexport function useWindowSize() {\n  const [size, setSize] = useState({\n    width: window.innerWidth,\n    height: window.innerHeight,\n  });\n\n  useEffect(() => {\n    const handleResize = () => {\n      setSize({\n        width: window.innerWidth,\n        height: window.innerHeight,\n      });\n    };\n\n    window.addEventListener('resize', handleResize);\n    return () => window.removeEventListener('resize', handleResize);\n  }, []);\n\n  return size;\n}",
+                        "explanation": "This hook tracks window size and cleans up the event listener. The JSDoc explains return structure and includes a real usage example. The cleanup logic is also clear."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "event-listeners",
+                    "side-effects",
+                    "responsive-design"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 3,
+                "path": "react/context",
+                "key" : "context",
+                "title": "Documenting React Context and Providers",
+                "category": "state-management",
+                "difficulty": "advanced",
+                "tags": [
+                    "context",
+                    "provider",
+                    "state",
+                    "jsdoc"
+                ],
+                "description": "Context can be hard to trace. Clear documentation helps developers understand what data is provided and how to consume it.",
+                "references": [
+                    {
+                        "type": "React Docs",
+                        "url": "https://react.dev/learn/passing-data-deeply-with-context",
+                        "title": "React: Passing Data Deeply with Context"
+                    },
+                    {
+                        "type": "Beta.dev",
+                        "url": "https://beta.dev/react/context",
+                        "title": "Deep Dive: React Context"
+                    }
+                ],
+                "best_practices": [
+                    "Document the shape of the context value.",
+                    "Explain how to use the Provider and Consumer.",
+                    "Mention default values and edge cases.",
+                    "Use TypeScript interfaces for clarity."
+                ],
+                "examples": [
+                    {
+                        "title": "Theme Context with JSDoc",
+                        "code": "/**\n * @typedef {Object} ThemeContextType\n * @property {'light' | 'dark'} mode\n * @property {() => void} toggleMode\n */\n\n/**\n * @context ThemeContext\n * @description Provides theme mode and toggle function\n * @default { mode: 'light', toggleMode: () => {} }\n */\nexport const ThemeContext = createContext(/** @type {ThemeContextType} */ ({\n  mode: 'light',\n  toggleMode: () => {}\n}));\n\nexport function ThemeProvider({ children }) {\n  const [mode, setMode] = useState('light');\n\n  const toggleMode = () => {\n    setMode(prev => prev === 'light' ? 'dark' : 'light');\n  };\n\n  return (\n    <ThemeContext.Provider value={{ mode, toggleMode }}>\n      {children}\n    </ThemeContext.Provider>\n  );\n}",
+                        "explanation": "Using `@typedef` and `@context`, we document the shape and purpose of the context. TypeScript casting ensures type safety. This helps IDEs and teammates understand usage."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "state-management",
+                    "theming",
+                    "render-props"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 4,
+                "path": "react/error-boundaries",
+                "key" : "error-boundaries",
+                "title": "Documenting Error Boundaries in React",
+                "category": "error-handling",
+                "difficulty": "intermediate",
+                "tags": [
+                    "error-boundary",
+                    "lifecycle",
+                    "recovery",
+                    "jsdoc"
+                ],
+                "description": "Error boundaries catch JavaScript errors in child components. Documentation should explain what errors they handle and fallback behavior.",
+                "references": [
+                    {
+                        "type": "React Docs",
+                        "url": "https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary",
+                        "title": "React: Error Boundaries"
+                    }
+                ],
+                "best_practices": [
+                    "Document what types of errors are caught.",
+                    "Explain the fallback UI.",
+                    "Note that they don’t catch async or event errors.",
+                    "Use `componentDidCatch` with error info."
+                ],
+                "examples": [
+                    {
+                        "title": "ErrorBoundary Component",
+                        "code": "/**\n * Catches rendering errors in children and shows fallback UI\n * @class\n * @example\n *   <ErrorBoundary>\n *     <ProblematicComponent />\n *   </ErrorBoundary>\n */\nclass ErrorBoundary extends React.Component {\n  constructor(props) {\n    super(props);\n    this.state = { hasError: false };\n  }\n\n  static getDerivedStateFromError() {\n    return { hasError: true };\n  }\n\n  componentDidCatch(error, errorInfo) {\n    // Log to service (e.g., Sentry)\n    console.error('Error caught by boundary:', error, errorInfo);\n  }\n\n  render() {\n    if (this.state.hasError) {\n      return <div>Something went wrong.</div>;\n    }\n\n    return this.props.children;\n  }\n}",
+                        "explanation": "This class component acts as a safety net. The JSDoc explains its role and usage. The `componentDidCatch` logs errors, which is critical for monitoring in production."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "crash-recovery",
+                    "logging",
+                    "production"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 5,
+                "path": "react/memoization",
+                "key" : "memoization",
+                "title": "Documenting useMemo and useCallback",
+                "category": "performance",
+                "difficulty": "intermediate",
+                "tags": [
+                    "useMemo",
+                    "useCallback",
+                    "performance",
+                    "optimization"
+                ],
+                "description": "Improper memoization can hurt performance. Comments should explain why a value or function is memoized.",
+                "references": [
+                    {
+                        "type": "React Docs",
+                        "url": "https://react.dev/reference/react/useMemo",
+                        "title": "React: useMemo"
+                    },
+                    {
+                        "type": "React Docs",
+                        "url": "https://react.dev/reference/react/useCallback",
+                        "title": "React: useCallback"
+                    }
+                ],
+                "best_practices": [
+                    "Comment why memoization is needed (e.g., heavy computation).",
+                    "Avoid premature optimization.",
+                    "Use `// OPTIMIZE:` for intentional memoization.",
+                    "Include dependency array rationale."
+                ],
+                "examples": [
+                    {
+                        "title": "useMemo for Expensive Calculation",
+                        "code": "function ProductList({ products, filter }) {\n  // OPTIMIZE: Avoid recalculating on every render\n  const filteredProducts = useMemo(() => {\n    console.log('Filtering products...');\n    return products.filter(p =>\n      p.name.toLowerCase().includes(filter.toLowerCase())\n    );\n  }, [products, filter]); // Only recalculate if products or filter change\n\n  return (\n    <ul>\n      {filteredProducts.map(p => <li key={p.id}>{p.name}</li>)}\n    </ul>\n  );\n}",
+                        "explanation": "The `// OPTIMIZE:` comment explains that this is a performance decision. The dependency array is documented implicitly by the comment. Without this, a new dev might remove `useMemo` thinking it's unnecessary."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "rendering",
+                    "optimization",
+                    "hooks"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 6,
+                "path": "react/forward-ref",
+                "key" : "forward-ref",
+                "title": "Documenting Components Using forwardRef",
+                "category": "components",
+                "difficulty": "advanced",
+                "tags": [
+                    "forwardRef",
+                    "ref",
+                    "accessibility",
+                    "jsdoc"
+                ],
+                "description": "Components using `forwardRef` allow parent to access DOM nodes. This behavior must be documented clearly.",
+                "references": [
+                    {
+                        "type": "React Docs",
+                        "url": "https://react.dev/reference/react/forwardRef",
+                        "title": "React: forwardRef"
+                    }
+                ],
+                "best_practices": [
+                    "Document that the component forwards refs.",
+                    "Explain what DOM element is exposed.",
+                    "Use `@see` to link to accessibility guidelines.",
+                    "Mention use cases like focus management."
+                ],
+                "examples": [
+                    {
+                        "title": "Input Component with forwardRef",
+                        "code": "/**\n * Custom input that forwards ref to the underlying <input>\n * @component\n * @example\n *   const inputRef = useRef();\n *   <FancyInput ref={inputRef} /> // Now you can call inputRef.current.focus()\n */\nconst FancyInput = forwardRef((props, ref) => {\n  return (\n    <div className=\"fancy-input\">\n      <input ref={ref} {...props} />\n    </div>\n  );\n});\n\nFancyInput.displayName = 'FancyInput';",
+                        "explanation": "The JSDoc makes it clear that `ref` is forwarded to the `<input>`. This is crucial for accessibility and usability. The `displayName` helps in DevTools."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "accessibility",
+                    "focus",
+                    "ui-components"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 7,
+                "path": "react/suspense",
+                "key" : "suspense",
+                "title": "Documenting Suspense and Lazy Components",
+                "category": "performance",
+                "difficulty": "intermediate",
+                "tags": [
+                    "suspense",
+                    "lazy",
+                    "code-splitting",
+                    "loading"
+                ],
+                "description": "Suspense enables code splitting and loading states. Documentation should clarify what is being lazy-loaded and fallback UI.",
+                "references": [
+                    {
+                        "type": "React Docs",
+                        "url": "https://react.dev/reference/react/Suspense",
+                        "title": "React: Suspense"
+                    },
+                    {
+                        "type": "React Docs",
+                        "url": "https://react.dev/reference/react/lazy",
+                        "title": "React: lazy"
+                    }
+                ],
+                "best_practices": [
+                    "Document which component is lazy-loaded.",
+                    "Explain the fallback UI.",
+                    "Note that Suspense doesn't handle data fetching natively (yet).",
+                    "Use meaningful chunk names."
+                ],
+                "examples": [
+                    {
+                        "title": "Lazy-Loaded Dashboard",
+                        "code": "/**\n * Lazy-loaded dashboard component\n * @note Code-split for performance\n * @chunkName dashboard-page\n */\nconst Dashboard = lazy(() => import('./Dashboard'));\n\nfunction App() {\n  return (\n    <Suspense fallback={<Spinner /> }>\n      <Dashboard />\n    </Suspense>\n  );\n}",
+                        "explanation": "The `@note` explains why `lazy` is used. The fallback UI (`<Spinner />`) is documented in JSX. This helps new devs understand the performance strategy."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "code-splitting",
+                    "bundle-size",
+                    "lazy-loading"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 8,
+                "path": "react/testing-utilities",
+                "key" : "testing-utilities",
+                "title": "Documenting Test Utilities in React Projects",
+                "category": "testing",
+                "difficulty": "intermediate",
+                "tags": [
+                    "testing",
+                    "jest",
+                    "react-testing-library",
+                    "documentation"
+                ],
+                "description": "Test utilities reduce boilerplate. They must be well-documented so team members use them correctly.",
+                "references": [
+                    {
+                        "type": "Testing Library",
+                        "url": "https://testing-library.com/docs/react-testing-library/intro/",
+                        "title": "React Testing Library"
+                    }
+                ],
+                "best_practices": [
+                    "Document mock setup and reset logic.",
+                    "Explain custom renderers.",
+                    "Use `@test` or `// TEST:` for test-specific notes."
+                ],
+                "examples": [
+                    {
+                        "title": "Custom Render for Tests",
+                        "code": "/**\n * Renders components with Router and Redux providers\n * @param {React.ReactNode} ui - Component to render\n * @param {Object} options - Optional overrides\n * @returns {RenderResult}\n */\nexport function renderWithProviders(ui, options = {}) {\n  const Wrapper = ({ children }) => (\n    <MemoryRouter>\n      <ReduxProvider store={store}>\n        {children}\n      </ReduxProvider>\n    </MemoryRouter>\n  );\n\n  return render(ui, { wrapper: Wrapper, ...options });\n}",
+                        "explanation": "This utility avoids repeating providers in every test. The JSDoc explains parameters and return value. This is essential for onboarding new testers."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "unit-testing",
+                    "mocking",
+                    "ci-cd"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 9,
+                "path": "react/conditional-rendering",
+                "key" : "conditional-rendering",
+                "title": "Commenting Complex Conditional Rendering",
+                "category": "components",
+                "difficulty": "beginner",
+                "tags": [
+                    "conditional",
+                    "rendering",
+                    "readability",
+                    "jsx"
+                ],
+                "description": "Complex conditionals in JSX can be hard to follow. Inline comments improve clarity.",
+                "references": [
+                    {
+                        "type": "React Docs",
+                        "url": "https://react.dev/learn/conditional-rendering",
+                        "title": "React: Conditional Rendering"
+                    }
+                ],
+                "best_practices": [
+                    "Use `// CONDITION:` to explain logic.",
+                    "Avoid deeply nested ternaries.",
+                    "Extract complex logic to variables with descriptive names."
+                ],
+                "examples": [
+                    {
+                        "title": "Conditional UI Based on User State",
+                        "code": "function UserProfile({ user, isLoading, error }) {\n  // CONDITION: Show loading first\n  if (isLoading) return <Spinner />;\n\n  // CONDITION: Then handle error\n  if (error) return <ErrorMessage />;\n\n  // CONDITION: Finally, show user or guest UI\n  return user ? (\n    <div>Welcome, {user.name}!</div>\n  ) : (\n    <div>Please log in.</div>\n  );\n}",
+                        "explanation": "Each condition is labeled with a comment. This makes the control flow obvious, even for junior developers. It also helps during code review."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "loading-states",
+                    "error-states",
+                    "ui-flow"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 10,
+                "path": "react/event-handlers",
+                "key" : "event-handlers",
+                "title": "Documenting Event Handlers and Callbacks",
+                "category": "components",
+                "difficulty": "beginner",
+                "tags": [
+                    "events",
+                    "handlers",
+                    "callbacks",
+                    "jsdoc"
+                ],
+                "description": "Event handlers are central to React interactivity. Documenting their purpose and parameters improves reusability.",
+                "references": [
+                    {
+                        "type": "React Docs",
+                        "url": "https://react.dev/learn/responding-to-events",
+                        "title": "React: Responding to Events"
+                    }
+                ],
+                "best_practices": [
+                    "Name handlers clearly (e.g., `handleClick`).",
+                    "Use JSDoc for complex handlers.",
+                    "Document preventDefault or stopPropagation usage.",
+                    "Avoid inline arrow functions in large lists."
+                ],
+                "examples": [
+                    {
+                        "title": "Form Submit Handler with Validation",
+                        "code": "/**\n * Handles form submission with validation\n * @param {React.FormEvent} e - Form event\n * @note Calls e.preventDefault()\n * @note Shows toast on success\n */\nfunction handleSubmit(e) {\n  e.preventDefault();\n  if (validate(form)) {\n    save(form);\n    showToast('Saved successfully!');\n  }\n}",
+                        "explanation": "The comment explains side effects like `preventDefault` and `showToast`. This helps other developers understand the full behavior without tracing the code."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "forms",
+                    "validation",
+                    "side-effects"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            }
+        ]
+    },
+    {
+        "name": "Next.js",
+        "Data": [
+            {
+                "id": 1,
+                "path": "next.js/app-router",
+                "key": "app-router",
+                "title": "Documenting Route Structure in Next.js App Router",
+                "category": "routing",
+                "difficulty": "beginner",
+                "tags": [
+                    "app-router",
+                    "pages",
+                    "structure",
+                    "layout",
+                    "jsdoc"
+                ],
+                "description": "The App Router uses file-based routing. Clear folder and file comments help teams understand the navigation structure.",
+                "references": [
+                    {
+                        "type": "Next.js Docs",
+                        "url": "https://nextjs.org/docs/app",
+                        "title": "Next.js App Router Documentation"
+                    },
+                    {
+                        "type": "Stack Overflow",
+                        "url": "https://stackoverflow.com/questions/74448212/how-to-document-app-directory-structure-in-next-js",
+                        "title": "How to document App Router structure?"
+                    }
+                ],
+                "best_practices": [
+                    "Use README.md or comments in folder to explain purpose.",
+                    "Name folders and files descriptively (e.g., `dashboard/settings`).",
+                    "Document special files like `layout.tsx`, `loading.tsx`."
+                ],
+                "examples": [
+                    {
+                        "title": "Folder-Level Documentation (README)",
+                        "code": "// app/dashboard/README.md\n#\n## Dashboard Module\n- Contains user analytics and settings\n- Uses `layout.tsx` for shared UI\n- `loading.tsx` provides skeleton UI\n- Protected by `middleware`\n",
+                        "explanation": "Even though it's not code, a README in a route folder helps new developers understand the module’s scope without opening every file."
+                    }
+                ],
+                "image_url": "https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fapp-directory-file-structure.png&w=3840&q=75",
+                "related_topics": [
+                    "file-structure",
+                    "routing",
+                    "app-directory"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 2,
+                "path": "next.js/server-components",
+                "key": "server-components",
+                "title": "Documenting Server Components in Next.js",
+                "category": "components",
+                "difficulty": "intermediate",
+                "tags": [
+                    "server-components",
+                    "rsc",
+                    "data-fetching",
+                    "jsdoc"
+                ],
+                "description": "Server Components run only on the server. Documentation should clarify where they can be used and their limitations.",
+                "references": [
+                    {
+                        "type": "Next.js Docs",
+                        "url": "https://nextjs.org/docs/app/building-your-application/rendering/server-components",
+                        "title": "Next.js: Server Components"
+                    }
+                ],
+                "best_practices": [
+                    "Use `// SERVER:` to mark server-only logic.",
+                    "Avoid useState, useEffect, event handlers in Server Components.",
+                    "Document data-fetching dependencies."
+                ],
+                "examples": [
+                    {
+                        "title": "User Dashboard (Server Component)",
+                        "code": "/**\n * Server Component: Fetches user data and renders dashboard\n * @note Cannot use useState or browser APIs\n * @data-fetches from /api/user/[id]\n */\nasync function Dashboard({ userId }) {\n  const user = await getUser(userId); // Direct DB call\n\n  return (\n    <div>\n      <h1>Welcome, {user.name}</h1>\n      <AnalyticsChart userId={userId} />\n    </div>\n  );\n}",
+                        "explanation": "The comment makes it clear this is a Server Component. It cannot use React state or effects. This prevents misuse by frontend developers."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "rsc",
+                    "data-fetching",
+                    "security"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 3,
+                "path": "next.js/client-components",
+                "key": "client-components",
+                "title": "Documenting Client Components in Next.js",
+                "category": "components",
+                "difficulty": "intermediate",
+                "tags": [
+                    "client-components",
+                    "use-client",
+                    "interactivity",
+                    "jsdoc"
+                ],
+                "description": "Client Components are marked with 'use client'. They handle interactivity and must be documented to avoid hydration mismatches.",
+                "references": [
+                    {
+                        "type": "Next.js Docs",
+                        "url": "https://nextjs.org/docs/app/building-your-application/rendering/client-components",
+                        "title": "Next.js: Client Components"
+                    }
+                ],
+                "best_practices": [
+                    "Always add `'use client'` at the top.",
+                    "Use `// CLIENT:` to explain interactivity purpose.",
+                    "Document useState, useEffect, and event handlers."
+                ],
+                "examples": [
+                    {
+                        "title": "Interactive Button with use client",
+                        "code": "'use client';\n\n/**\n * Interactive button with hover and click effects\n * @client\n * @state Manages hover and click state\n * @example\n *   <InteractiveButton onClick={handleClick} />\n */\nimport { useState } from 'react';\n\nexport default function InteractiveButton({ onClick }) {\n  const [isHovered, setIsHovered] = useState(false);\n\n  return (\n    <button\n      onMouseEnter={() => setIsHovered(true)}\n      onMouseLeave={() => setIsHovered(false)}\n      onClick={onClick}\n      className={isHovered ? 'bg-blue-600' : 'bg-blue-500'}\n    >\n      Click Me\n    </button>\n  );\n}",
+                        "explanation": "The `'use client'` directive is required. The `// CLIENT:` and `@state` comments explain why this component is on the client. This prevents accidental server-only usage."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "interactivity",
+                    "hydration",
+                    "hooks"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 4,
+                "path": "next.js/data-fetching",
+                "key": "data-fetching",
+                "title": "Documenting Data Fetching in Server Components",
+                "category": "data-fetching",
+                "difficulty": "intermediate",
+                "tags": [
+                    "data-fetching",
+                    "async",
+                    "api",
+                    "server",
+                    "jsdoc"
+                ],
+                "description": "Data fetching in Server Components is done with async/await. Comments should explain source, caching, and error handling.",
+                "references": [
+                    {
+                        "type": "Next.js Docs",
+                        "url": "https://nextjs.org/docs/app/building-your-application/data-fetching",
+                        "title": "Next.js: Data Fetching"
+                    }
+                ],
+                "best_practices": [
+                    "Use `// FETCH:` to mark data calls.",
+                    "Explain caching strategy (e.g., `next: { revalidate: 60 }`).",
+                    "Document error fallbacks."
+                ],
+                "examples": [
+                    {
+                        "title": "Fetching Blog Posts with Revalidation",
+                        "code": "/**\n * Loads blog posts from CMS\n * @fetches from https://cms.example.com/api/posts\n * @cache revalidates every 60 seconds\n * @throws {Error} If CMS is unreachable\n */\nasync function getPosts() {\n  const res = await fetch('https://cms.example.com/api/posts', {\n    next: { revalidate: 60 } // Revalidate every minute\n  });\n\n  if (!res.ok) throw new Error('Failed to fetch posts');\n\n  return res.json();\n}",
+                        "explanation": "The `@fetches`, `@cache`, and `@throws` tags explain behavior clearly. This helps team members understand performance and reliability."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "caching",
+                    "cms",
+                    "performance"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 5,
+                "path": "next.js/middleware",
+                "key": "middleware",
+                "title": "Documenting Middleware in Next.js",
+                "category": "routing",
+                "difficulty": "advanced",
+                "tags": [
+                    "middleware",
+                    "auth",
+                    "redirects",
+                    "edge",
+                    "jsdoc"
+                ],
+                "description": "Middleware runs at the edge and can modify requests. Documentation should explain routing logic and conditions.",
+                "references": [
+                    {
+                        "type": "Next.js Docs",
+                        "url": "https://nextjs.org/docs/app/building-your-application/routing/middleware",
+                        "title": "Next.js: Middleware"
+                    }
+                ],
+                "best_practices": [
+                    "Comment the condition under which redirect or rewrite happens.",
+                    "Explain edge runtime limitations.",
+                    "Use `// MIDDLEWARE:` or `// AUTH:` for clarity."
+                ],
+                "examples": [
+                    {
+                        "title": "Authentication Middleware",
+                        "code": "// middleware.ts\nimport { NextRequest, NextFetchEvent } from 'next/server';\n\n/**\n * Redirects unauthenticated users to /login\n * @condition Checks for `auth_token` cookie\n * @edge Runs in Vercel Edge Runtime\n * @example Applies to /dashboard/**\n */\nexport function middleware(req: NextRequest, ev: NextFetchEvent) {\n  const token = req.cookies.get('auth_token');\n\n  if (!token) {\n    return Response.redirect(new URL('/login', req.url));\n  }\n}",
+                        "explanation": "The `@condition`, `@edge`, and `@example` tags make the middleware’s behavior transparent. This is critical for debugging and security audits."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "authentication",
+                    "edge",
+                    "security"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 6,
+                "path": "next.js/api-routes",
+                "key": "api-routes",
+                "title": "Documenting API Routes in Next.js",
+                "category": "backend",
+                "difficulty": "intermediate",
+                "tags": [
+                    "api",
+                    "routes",
+                    "handlers",
+                    "backend",
+                    "jsdoc"
+                ],
+                "description": "API routes in `pages/api` act as serverless endpoints. They should be documented like any backend API.",
+                "references": [
+                    {
+                        "type": "Next.js Docs",
+                        "url": "https://nextjs.org/docs/pages/building-your-application/routing/api-routes",
+                        "title": "Next.js: API Routes"
+                    }
+                ],
+                "best_practices": [
+                    "Use JSDoc to describe request and response.",
+                    "Document query/body parameters.",
+                    "Add `@example` for cURL or fetch usage."
+                ],
+                "examples": [
+                    {
+                        "title": "POST /api/contact",
+                        "code": "// pages/api/contact.ts\n/**\n * Handles contact form submission\n * @method POST\n * @body { name: string, email: string, message: string }\n * @returns { success: boolean, id?: string }\n * @example\n *   fetch('/api/contact', {\n *     method: 'POST',\n *     body: JSON.stringify({ name: 'John', email: 'j@example.com', msg: 'Hi' })\n *   })\n */\nexport default function handler(req, res) {\n  if (req.method !== 'POST') {\n    return res.status(405).end();\n  }\n\n  const { name, email, message } = req.body;\n  // Save to DB\n  res.status(201).json({ success: true, id: 'abc123' });\n}",
+                        "explanation": "This API route is fully documented with method, body, return, and example. It can be used to generate Postman collections or frontend types."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "serverless",
+                    "forms",
+                    "backend"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 7,
+                "path": "next.js/image-optimization",
+                "key": "image-optimization",
+                "title": "Documenting Image Optimization Usage",
+                "category": "performance",
+                "difficulty": "beginner",
+                "tags": [
+                    "image",
+                    "optimization",
+                    "performance",
+                    "jsx",
+                    "jsdoc"
+                ],
+                "description": "`next/image` optimizes images automatically. Comments should explain sizing, loading strategy, and CDN usage.",
+                "references": [
+                    {
+                        "type": "Next.js Docs",
+                        "url": "https://nextjs.org/docs/app/api-reference/components/image",
+                        "title": "Next.js: Image Component"
+                    }
+                ],
+                "best_practices": [
+                    "Use `// IMAGE:` to explain size and layout.",
+                    "Document `priority` for above-the-fold images.",
+                    "Avoid `unoptimized` unless necessary."
+                ],
+                "examples": [
+                    {
+                        "title": "Optimized Hero Image",
+                        "code": "/**\n * Hero banner image (above the fold)\n * @image width=1200px, height=400px\n * @load priority: true (critical content)\n * @cdn Uses Vercel Image Optimization\n */\nimport Image from 'next/image';\n\nexport default function Hero() {\n  return (\n    <Image\n      src=\"/images/hero.jpg\"\n      alt=\"Hero Banner\"\n      width={1200}\n      height={400}\n      priority\n    />\n  );\n}",
+                        "explanation": "The `@image`, `@load`, and `@cdn` tags explain performance decisions. This helps auditors and new developers understand optimization choices."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "lcp",
+                    "web-vitals",
+                    "seo"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 8,
+                "path": "next.js/fonts",
+                "key": "fonts",
+                "title": "Documenting Custom Font Loading",
+                "category": "performance",
+                "difficulty": "intermediate",
+                "tags": [
+                    "fonts",
+                    "performance",
+                    "layout-shift",
+                    "optimization"
+                ],
+                "description": "Custom fonts can cause layout shift. Documentation should explain loading strategy and fallbacks.",
+                "references": [
+                    {
+                        "type": "Next.js Docs",
+                        "url": "https://nextjs.org/docs/app/building-your-application/optimizing/fonts",
+                        "title": "Next.js: Font Optimization"
+                    }
+                ],
+                "best_practices": [
+                    "Use `// FONT:` to explain family and weight.",
+                    "Document `variable` font usage.",
+                    "Explain `display: swap` implications."
+                ],
+                "examples": [
+                    {
+                        "title": "Using Variable Font",
+                        "code": "// app/layout.tsx\nimport { Inter } from 'next/font/google';\n\n/**\n * Inter variable font (wght axis)\n * @font family: 'Inter', weights: 100-900\n * @load Uses Google Fonts with local fallback\n * @perf Reduces file count and improves FCP\n */\nconst inter = Inter({\n  subsets: ['latin'],\n  variable: true\n});\n\nexport default function RootLayout({ children }) {\n  return (\n    <html lang=\"en\" className={inter.variable}>\n      <body>{children}</body>\n    </html>\n  );\n}",
+                        "explanation": "The comment explains that a variable font is used, reducing HTTP requests. The `variable: true` enables CSS class usage. This improves performance."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "performance",
+                    "fcp",
+                    "typography"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 9,
+                "path": "next.js/dynamic-imports",
+                "key": "dynamic-imports",
+                "title": "Documenting Dynamic Imports and Code Splitting",
+                "category": "performance",
+                "difficulty": "intermediate",
+                "tags": [
+                    "dynamic",
+                    "import",
+                    "code-splitting",
+                    "lazy",
+                    "jsdoc"
+                ],
+                "description": "`next/dynamic` enables lazy loading. Comments should explain why a component is loaded dynamically.",
+                "references": [
+                    {
+                        "type": "Next.js Docs",
+                        "url": "https://nextjs.org/docs/app/building-your-application/optimizing/lazy-loading",
+                        "title": "Next.js: Lazy Loading"
+                    }
+                ],
+                "best_practices": [
+                    "Use `// DYNAMIC:` to explain bundle size savings.",
+                    "Document `loading` fallback UI.",
+                    "Avoid dynamic import for above-the-fold content."
+                ],
+                "examples": [
+                    {
+                        "title": "Lazy-Loaded Chart Component",
+                        "code": "/**\n * Chart component (heavy, ~100kb)\n * @dynamic Loaded only when visible\n * @fallback Shows spinner while loading\n */\nconst Chart = dynamic(() => import('../components/Chart'), {\n  loading: () => <Spinner />,  \n});\n\nfunction Dashboard() {\n  return (\n    <div>\n      <h1>Analytics</h1>\n      <Chart />\n    </div>\n  );\n}",
+                        "explanation": "The `@dynamic` and `@fallback` tags explain performance and UX behavior. This prevents misuse and helps during code review."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "bundle-size",
+                    "lazy-loading",
+                    "ux"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 10,
+                "path": "next.js/environment-variables",
+                "key": "environment-variables",
+                "title": "Documenting Environment Variables in Next.js",
+                "category": "configuration",
+                "difficulty": "intermediate",
+                "tags": [
+                    "env",
+                    "variables",
+                    "config",
+                    "security",
+                    "jsdoc"
+                ],
+                "description": "Next.js supports public and private environment variables. Documentation should clarify scope and security.",
+                "references": [
+                    {
+                        "type": "Next.js Docs",
+                        "url": "https://nextjs.org/docs/app/building-your-application/configuring/environment-variables",
+                        "title": "Next.js: Environment Variables"
+                    }
+                ],
+                "best_practices": [
+                    "Prefix public vars with `NEXT_PUBLIC_`.",
+                    "Never commit `.env.local`.",
+                    "Use `// ENV:` to explain usage."
+                ],
+                "examples": [
+                    {
+                        "title": "Using Environment Variables",
+                        "code": "// .env.local\n# Database connection (server-only)\nDB_HOST=localhost\nDB_USER=admin\n\n# Public API key (exposed to browser)\nNEXT_PUBLIC_API_URL=https://api.example.com\n\n// lib/api.ts\n/**\n * @env NEXT_PUBLIC_API_URL: Used for frontend API calls\n * @env DB_HOST: Only available server-side\n * @security Never expose DB credentials in client\n */\nconst apiUrl = process.env.NEXT_PUBLIC_API_URL;",
+                        "explanation": "The comment explains which variables are public vs private. This prevents accidental leakage of sensitive data to the browser."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "security",
+                    "deployment",
+                    "configuration"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            }
+        ]
+    },
+    {
+        "name": "TypeScript",
+        "Data": [
+            {
+                "id": 1,
+                "path": "typescript/interfaces",
+                "key" : "interfaces",
+                "title": "Documenting Interfaces in TypeScript",
+                "category": "types",
+                "difficulty": "beginner",
+                "tags": [
+                    "interface",
+                    "types",
+                    "jsdoc",
+                    "clean-code",
+                    "api-design"
+                ],
+                "description": "Interfaces define the shape of objects. Clear documentation ensures correct implementation and usage across large codebases.",
+                "references": [
+                    {
+                        "type": "TypeScript Docs",
+                        "url": "https://www.typescriptlang.org/docs/handbook/2/objects.html",
+                        "title": "TypeScript: Object Types (Interfaces)"
+                    },
+                    {
+                        "type": "Stack Overflow",
+                        "url": "https://stackoverflow.com/questions/47335402/how-to-document-typescript-interfaces-with-jsdoc",
+                        "title": "How to document TypeScript interfaces with JSDoc?"
+                    },
+                    {
+                        "type": "GitHub",
+                        "url": "https://github.com/microsoft/TypeScript/wiki/JSDoc-support-in-JavaScript",
+                        "title": "Microsoft: JSDoc Support in TypeScript"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@interface` and `@property` to describe each field.",
+                    "Add `@example` for complex object structures.",
+                    "Prefer interfaces over `type` for public APIs.",
+                    "Avoid `any` — always document expected shapes."
+                ],
+                "examples": [
+                    {
+                        "title": "User Interface with JSDoc",
+                        "code": "/**\n * Represents a user in the system\n * @interface\n * @property {string} id - Unique identifier (UUID)\n * @property {string} email - Must be valid email format\n * @property {string} name - Full name of the user\n * @property {boolean} isActive - Whether account is active\n * @example\n *   const user: User = {\n *     id: 'abc123',\n *     email: 'user@example.com',\n *     name: 'John Doe',\n *     isActive: true\n *   };\n */\ninterface User {\n  id: string;\n  email: string;\n  name: string;\n  isActive: boolean;\n}",
+                        "explanation": "This interface is fully documented with purpose, properties, and an example. IDEs like VS Code can use this for tooltips. The `@example` helps new developers understand usage."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "types",
+                    "objects",
+                    "api-contracts"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 2,
+                "path": "typescript/generics",
+                "key" : "generics",
+                "title": "Documenting Generic Types in TypeScript",
+                "category": "types",
+                "difficulty": "advanced",
+                "tags": [
+                    "generics",
+                    "reusability",
+                    "tsdoc",
+                    "abstraction"
+                ],
+                "description": "Generics allow reusable and type-safe functions. Documentation should explain type parameters and their constraints.",
+                "references": [
+                    {
+                        "type": "TypeScript Docs",
+                        "url": "https://www.typescriptlang.org/docs/handbook/2/generics.html",
+                        "title": "TypeScript: Generics"
+                    },
+                    {
+                        "type": "TSDoc",
+                        "url": "https://tsdoc.org/",
+                        "title": "TSDoc: Standard for TypeScript Documentation"
+                    },
+                    {
+                        "type": "Stack Overflow",
+                        "url": "https://stackoverflow.com/questions/60183549/documenting-generics-in-typescript",
+                        "title": "How to document generics in TypeScript?"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@template T` or `@typeparam` to describe each type parameter.",
+                    "Explain constraints (e.g., `T extends User`).",
+                    "Provide examples with concrete types.",
+                    "Avoid overly abstract names like `T`, `U` without explanation."
+                ],
+                "examples": [
+                    {
+                        "title": "Generic Repository Pattern",
+                        "code": "/**\n * Generic repository for CRUD operations\n * @template T - The entity type\n * @template ID - The ID type (e.g., string or number)\n * @example\n *   const userRepository = new Repository<User, string>();\n *   const user = userRepository.findById('abc123');\n */\nclass Repository<T, ID> {\n  private items: Map<ID, T> = new Map();\n\n  findById(id: ID): T | undefined {\n    return this.items.get(id);\n  }\n\n  save(id: ID, item: T): void {\n    this.items.set(id, item);\n  }\n}",
+                        "explanation": "The `@template` tags explain what `T` and `ID` represent. The example shows how to instantiate with real types. This makes the generic class much easier to adopt."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "patterns",
+                    "crud",
+                    "abstraction"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 3,
+                "path": "typescript/types",
+                "key" : "types",
+                "title": "Documenting Type Aliases in TypeScript",
+                "category": "types",
+                "difficulty": "beginner",
+                "tags": [
+                    "type",
+                    "alias",
+                    "union",
+                    "literal",
+                    "jsdoc"
+                ],
+                "description": "Type aliases create readable and reusable types. They should be documented to clarify intent and usage.",
+                "references": [
+                    {
+                        "type": "TypeScript Docs",
+                        "url": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-aliases",
+                        "title": "TypeScript: Type Aliases"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@typedef` or `@type` to describe custom types.",
+                    "For union types, explain valid values.",
+                    "Avoid `type` for complex object shapes — use `interface` instead.",
+                    "Use descriptive names (e.g., `HttpStatus` not `Status`)."
+                ],
+                "examples": [
+                    {
+                        "title": "HTTP Status Code Union Type",
+                        "code": "/**\n * Represents valid HTTP success status codes\n * @typedef {100 | 101 | 200 | 201 | 204} HttpStatusSuccess\n * @description Use for API response validation\n * @example\n *   function handleResponse(status: HttpStatusSuccess) { ... }\n */\ntype HttpStatusSuccess = 100 | 101 | 200 | 201 | 204;\n\n/**\n * Union type for user roles\n * @typedef {'admin' | 'moderator' | 'user'} UserRole\n */\ntype UserRole = 'admin' | 'moderator' | 'user';",
+                        "explanation": "Using `@typedef` in comments helps tools like TypeDoc understand named types. The description clarifies where this type should be used, improving maintainability."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "union-types",
+                    "literals",
+                    "validation"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 4,
+                "path": "typescript/functions",
+                "key" : "functions",
+                "title": "Documenting Functions with TypeScript and JSDoc",
+                "category": "functions",
+                "difficulty": "beginner",
+                "tags": [
+                    "functions",
+                    "jsdoc",
+                    "parameters",
+                    "return",
+                    "tsdoc"
+                ],
+                "description": "Combining TypeScript types with JSDoc provides both machine and human-readable documentation.",
+                "references": [
+                    {
+                        "type": "TSDoc",
+                        "url": "https://tsdoc.org/pages/tags/param/",
+                        "title": "TSDoc: @param"
+                    },
+                    {
+                        "type": "TypeScript",
+                        "url": "https://www.typescriptlang.org/docs/handbook/jsdoc.html",
+                        "title": "TypeScript: JSDoc Support"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@param` with description even if type is clear.",
+                    "Use `@returns` to explain return logic.",
+                    "Add `@throws` if function can throw.",
+                    "Use `@example` for non-trivial usage."
+                ],
+                "examples": [
+                    {
+                        "title": "Validated Function with JSDoc",
+                        "code": "/**\n * Divides two numbers with validation\n * @param {number} a - Dividend\n * @param {number} b - Divisor (must not be zero)\n * @returns {number} Result of a / b\n * @throws {Error} If divisor is zero\n * @example\n *   divide(10, 2) // returns 5\n *   divide(10, 0) // throws Error\n */\nfunction divide(a: number, b: number): number {\n  if (b === 0) {\n    throw new Error('Division by zero');\n  }\n  return a / b;\n}",
+                        "explanation": "Even though TypeScript knows the types, JSDoc explains behavior, edge cases, and error conditions. This is critical for API consumers."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "error-handling",
+                    "validation",
+                    "api"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 5,
+                "path": "typescript/classes",
+                "key" : "classes",
+                "title": "Documenting Classes and Constructors in TypeScript",
+                "category": "classes",
+                "difficulty": "intermediate",
+                "tags": [
+                    "class",
+                    "constructor",
+                    "members",
+                    "jsdoc",
+                    "oob"
+                ],
+                "description": "Classes should be documented with clear descriptions of properties, methods, and initialization logic.",
+                "references": [
+                    {
+                        "type": "TypeScript Docs",
+                        "url": "https://www.typescriptlang.org/docs/handbook/2/classes.html",
+                        "title": "TypeScript: Classes"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@class` to describe the class purpose.",
+                    "Document constructor parameters with `@param`.",
+                    "Use `@property` for public fields.",
+                    "Explain lifecycle or initialization side effects."
+                ],
+                "examples": [
+                    {
+                        "title": "Configurable Logger Class",
+                        "code": "/**\n * @class Logger\n * @description A configurable logger with log levels\n * @property {string} prefix - Optional prefix for all logs\n * @property {'debug'|'info'|'warn'|'error'} level - Minimum level to log\n */\nclass Logger {\n  /**\n   * @param {Object} options\n   * @param {string} [options.prefix='']\n   * @param {'debug'|'info'|'warn'|'error'} [options.level='info']\n   */\n  constructor({\n    prefix = '',\n    level = 'info'\n  }: {\n    prefix?: string;\n    level?: 'debug' | 'info' | 'warn' | 'error';\n  }) {\n    this.prefix = prefix;\n    this.level = level;\n  }\n\n  log(level: string, message: string) {\n    console.log(`[${level}] ${this.prefix}: ${message}`);\n  }\n}",
+                        "explanation": "The class is fully documented with `@class`, `@property`, and constructor `@param`. This makes it easy to generate documentation and understand usage without reading code."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "oob",
+                    "logging",
+                    "configuration"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 6,
+                "path": "typescript/enums",
+                "key" : "enums",
+                "title": "Documenting Enums in TypeScript",
+                "category": "types",
+                "difficulty": "beginner",
+                "tags": [
+                    "enum",
+                    "constants",
+                    "readability",
+                    "jsdoc"
+                ],
+                "description": "Enums improve readability. Documentation should explain valid values and intended usage.",
+                "references": [
+                    {
+                        "type": "TypeScript Docs",
+                        "url": "https://www.typescriptlang.org/docs/handbook/2/enums.html",
+                        "title": "TypeScript: Enums"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@enum` to describe the enum's purpose.",
+                    "Comment each enum member if not self-explanatory.",
+                    "Prefer `const enum` in performance-critical cases.",
+                    "Avoid enums for string literals — use union types instead."
+                ],
+                "examples": [
+                    {
+                        "title": "Task Status Enum",
+                        "code": "/**\n * @enum {string}\n * @description Status of a background task\n * Used in task scheduler and UI indicators\n */\nenum TaskStatus {\n  /** Task is created but not started */\n  PENDING = 'pending',\n  /** Task is currently running */\n  RUNNING = 'running',\n  /** Task completed successfully */\n  COMPLETED = 'completed',\n  /** Task failed with error */\n  FAILED = 'failed'\n}",
+                        "explanation": "Each enum member has a comment explaining its meaning. The `@enum` tag helps documentation generators. This is especially useful in UIs where status is displayed."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "state",
+                    "workflow",
+                    "ui"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 7,
+                "path": "typescript/modules",
+                "key" : "modules",
+                "title": "Documenting TypeScript Modules and Exports",
+                "category": "modularity",
+                "difficulty": "intermediate",
+                "tags": [
+                    "modules",
+                    "export",
+                    "namespace",
+                    "structure",
+                    "jsdoc"
+                ],
+                "description": "Modules organize code. Documentation should clarify what each file exports and how it fits into the system.",
+                "references": [
+                    {
+                        "type": "TypeScript Docs",
+                        "url": "https://www.typescriptlang.org/docs/handbook/modules.html",
+                        "title": "TypeScript: Modules"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@module` at the top of the file.",
+                    "Describe the module's responsibility.",
+                    "Group related exports in folders.",
+                    "Use `index.ts` for clean imports."
+                ],
+                "examples": [
+                    {
+                        "title": "Math Utils Module",
+                        "code": "/**\n * @module utils/math\n * @description Mathematical utilities for geometry and calculations\n * @example\n *   import { distance } from '@utils/math';\n */\n\n/**\n * Calculates Euclidean distance between two points\n * @param {number} x1\n * @param {number} y1\n * @param {number} x2\n * @param {number} y2\n * @returns {number}\n */\nexport function distance(x1: number, y1: number, x2: number, y2: number) {\n  return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);\n}",
+                        "explanation": "The `@module` tag defines the file's role. Tools like TypeDoc use this to generate structured documentation. The example shows how to import it."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "file-structure",
+                    "namespaces",
+                    "bundling"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 8,
+                "path": "typescript/utility-types",
+                "key" : "utility-types",
+                "title": "Documenting Utility Types in TypeScript",
+                "category": "types",
+                "difficulty": "advanced",
+                "tags": [
+                    "utility-types",
+                    "mapped-types",
+                    "conditional-types",
+                    "abstraction"
+                ],
+                "description": "Utility types like `Partial`, `Pick`, `Omit` are powerful. Documentation helps teams understand when and why to use them.",
+                "references": [
+                    {
+                        "type": "TypeScript Docs",
+                        "url": "https://www.typescriptlang.org/docs/handbook/utility-types.html",
+                        "title": "TypeScript: Utility Types"
+                    }
+                ],
+                "best_practices": [
+                    "Explain why a utility type is used (e.g., `Partial<User>` for updates).",
+                    "Avoid over-nesting (e.g., `Pick<Partial<Omit<...>>>`).",
+                    "Create custom utility types with clear names and docs."
+                ],
+                "examples": [
+                    {
+                        "title": "Custom Utility Type for API Updates",
+                        "code": "/**\n * Represents a partial update DTO for User\n * @typedef {Partial<Pick<User, 'name' | 'email'>>} UserUpdate\n * @description Only these fields can be updated via PATCH\n */\ntype UserUpdate = Partial<Pick<User, 'name' | 'email'>>;\n\n// Usage in API\nfunction updateUser(id: string, data: UserUpdate) {\n  // Apply only allowed fields\n}",
+                        "explanation": "This combines `Partial` and `Pick` to create a safe update type. The comment explains the business rule behind it, making it self-documenting."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "api",
+                    "security",
+                    "validation"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 9,
+                "path": "typescript/declaration-files",
+                "key" : "declaration-files",
+                "title": "Documenting Declaration Files (.d.ts)",
+                "category": "tooling",
+                "difficulty": "advanced",
+                "tags": [
+                    "d.ts",
+                    "types",
+                    "externals",
+                    "libraries",
+                    "jsdoc"
+                ],
+                "description": "Declaration files provide types for JavaScript libraries. They should be well-documented for consumer clarity.",
+                "references": [
+                    {
+                        "type": "TypeScript Docs",
+                        "url": "https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html",
+                        "title": "Declaration Files Introduction"
+                    }
+                ],
+                "best_practices": [
+                    "Document each global, function, and type in `.d.ts`.",
+                    "Use `@module` and `@typedef`.",
+                    "Explain assumptions about the JS library.",
+                    "Keep comments in sync with library updates."
+                ],
+                "examples": [
+                    {
+                        "title": "Declaration File for Analytics Library",
+                        "code": "// analytics.d.ts\n/**\n * @module analytics\n * @description Type definitions for third-party analytics.js\n */\ndeclare namespace Analytics {\n  /**\n   * Tracks an event\n   * @param {string} event - Event name\n   * @param {Object} [props] - Additional properties\n   */\n  function track(event: string, props?: Record<string, any>): void;\n\n  /**\n   * Initializes the analytics client\n   * @param {string} apiKey\n   */\n  function init(apiKey: string): void;\n}\n\ndeclare const analytics: typeof Analytics;\nexport default analytics;",
+                        "explanation": "This `.d.ts` file documents a third-party library. The `@module` and `@param` tags help users understand how to use the library safely in TypeScript."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "third-party",
+                    "types",
+                    "integration"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 10,
+                "path": "typescript/tsconfig",
+                "key" : "tsconfig",
+                "title": "Documenting tsconfig.json Settings",
+                "category": "tooling",
+                "difficulty": "intermediate",
+                "tags": [
+                    "tsconfig",
+                    "configuration",
+                    "compiler",
+                    "project"
+                ],
+                "description": "tsconfig.json controls TypeScript behavior. Comments explain why certain options are enabled.",
+                "references": [
+                    {
+                        "type": "TypeScript Docs",
+                        "url": "https://www.typescriptlang.org/tsconfig",
+                        "title": "Full tsconfig Reference"
+                    }
+                ],
+                "best_practices": [
+                    "Add comments to explain non-default settings.",
+                    "Use `// NOTE:` for team-specific decisions.",
+                    "Link to docs for complex options like `strictNullChecks`."
+                ],
+                "examples": [
+                    {
+                        "title": "Well-Commented tsconfig.json",
+                        "code": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2020\",\n    \"module\": \"ESNext\",\n    \"strict\": true, // Enables all strict type-checking options\n    \"esModuleInterop\": true, // Allows default imports from CJS modules\n    \"skipLibCheck\": true, // Improves compile time (safe to skip)\n    \"forceConsistentCasingInFileNames\": true, // Prevents import case bugs\n    \"outDir\": \"dist\", // Compiled files go here\n    \"rootDir\": \"src\" // Source files location\n  },\n  \"include\": [\"src\"]\n}",
+                        "explanation": "Each option is commented to explain its purpose. This helps new developers understand the project setup without memorizing compiler flags."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "build",
+                    "compiler",
+                    "project-structure"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            }
+        ]
+    }
+]
