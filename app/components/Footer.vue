@@ -1,7 +1,7 @@
 <script setup>
 const route = useRoute();</script>
 <template>
-    <footer v-if="route.path !== '/' " class="absolute left-0 bottom-[100vh-10rem] z-20 bg-slate-100 dark:bg-slate-950 w-full p-3">
+    <footer v-if="route.path !== '/' " class="absolute left-0 mb-10 bottom-[100vh-10rem] z-20 bg-slate-100 dark:bg-slate-950 w-full p-3">
         <div>
             <section>
                 <div class="flex font-roboto flex-col justify-center items-center">

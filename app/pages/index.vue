@@ -12,10 +12,10 @@
                     </h1>
                     <p class="text-center dark:text-white leading-7 max-w-[700px] my-3 font-Inconsolata text-sm sm:text-base">No more searching and thinking for the right comment for your structure and project. Just move forward with the help of our artificial intelligence and our documentation.</p>
                     <div class="flex  *:tracking-tight flex-col gap-2 *:cursor-pointer">
-                        <button class="flex p-3 rounded-md bg-cyan-400 dark:bg-cyan-800 font-bold gap-1 flex-row-reverse items-center">
-                            Show document in GitHub
+                        <a href="https://github.com/poriyaASadi/Magic-Comment" class="flex p-3 rounded-md bg-cyan-400 dark:bg-cyan-800 font-bold gap-1 flex-row-reverse items-center">
+                             Show GitHub Page
                         <Icon name="grommet-icons:github"/>
-                        </button>
+                        </a>
                         <NuxtLink to="/documentations" class="font-bold text-center hover:text-cyan-500 dark:text-white pt-2 p-3 rounded-md">Start Comment Now</NuxtLink>
                     </div>
                 </div>

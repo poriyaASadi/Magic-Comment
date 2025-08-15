@@ -195,6 +195,491 @@
                 ],
                 "created_at": "2025-04-05",
                 "language": "en"
+            },
+            {
+                "id": 4,
+                "path": "javascript/promise-handling",
+                "key": "promise-handling",
+                "title": "Documenting Promise-Based Functions and Error Handling",
+                "category": "async",
+                "difficulty": "intermediate",
+                "tags": [
+                    "promise",
+                    "async",
+                    "error-handling",
+                    "jsdoc",
+                    "clean-code"
+                ],
+                "description": "Promises can be hard to trace. Clear documentation helps developers understand success and error states, improving reliability.",
+                "references": [
+                    {
+                        "type": "MDN",
+                        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+                        "title": "MDN: Promise"
+                    },
+                    {
+                        "type": "JSDoc",
+                        "url": "https://jsdoc.app/tags-returns.html",
+                        "title": "JSDoc: @returns"
+                    },
+                    {
+                        "type": "Stack Overflow",
+                        "url": "https://stackoverflow.com/questions/45585798/documenting-async-functions-with-jsdoc",
+                        "title": "How to document async functions with JSDoc?"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@returns {Promise<...>}` to document resolved value.",
+                    "Use `@throws` to explain possible rejection reasons.",
+                    "Add `@example` with `.catch()` or `try/catch`.",
+                    "Avoid silent promise rejections."
+                ],
+                "examples": [
+                    {
+                        "title": "Async User Fetch with JSDoc",
+                        "code": "/**\n * Fetches user data from API\n * @param {string} userId\n * @returns {Promise<Object>} Resolves with user data\n * @throws {Error} If network fails or user not found\n * @example\n *   fetchUser('123')\n *     .then(user => console.log(user))\n *     .catch(err => console.error('Failed:', err.message));\n */\nasync function fetchUser(userId) {\n  const res = await fetch(`/api/users/${userId}`);\n  if (!res.ok) throw new Error('User not found');\n  return res.json();\n}",
+                        "explanation": "The `@returns` shows it’s a Promise, and `@throws` warns about possible errors. The example shows how to handle both success and failure, which is critical for robust async code."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "async-await",
+                    "error-handling",
+                    "api-calls"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 5,
+                "path": "javascript/destructuring",
+                "key": "destructuring",
+                "title": "Documenting Destructured Parameters in Functions",
+                "category": "functions",
+                "difficulty": "intermediate",
+                "tags": [
+                    "destructuring",
+                    "parameters",
+                    "objects",
+                    "jsdoc",
+                    "clean-code"
+                ],
+                "description": "Destructured parameters improve readability but can obscure expected input structure. JSDoc makes the expected shape explicit.",
+                "references": [
+                    {
+                        "type": "MDN",
+                        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment",
+                        "title": "MDN: Destructuring Assignment"
+                    },
+                    {
+                        "type": "JSDoc",
+                        "url": "https://jsdoc.app/tags-param.html",
+                        "title": "JSDoc: @param"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@param` to document nested object properties.",
+                    "Specify optional fields with `[]` syntax.",
+                    "Use `@example` to show valid input objects."
+                ],
+                "examples": [
+                    {
+                        "title": "Configurable Logger with Destructuring",
+                        "code": "/**\n * Logs a message with configurable options\n * @param {Object} options\n * @param {string} options.message - Message to log\n * @param {string} [options.level='info'] - Log level: 'info', 'warn', 'error'\n * @param {boolean} [options.timestamp=true] - Include timestamp\n * @example\n *   logMessage({\n *     message: 'App started',\n *     level: 'info'\n *   });\n */\nfunction logMessage({ message, level = 'info', timestamp = true }) {\n  const time = timestamp ? `[${new Date().toISOString()}] ` : '';\n  console.log(`${time}[${level.toUpperCase()}] ${message}`);\n}",
+                        "explanation": "Even though the function uses destructuring, JSDoc clearly documents the expected object structure. This helps IDEs show autocomplete and prevents invalid calls."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "objects",
+                    "optional-parameters",
+                    "configuration"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 6,
+                "path": "javascript/factory-pattern",
+                "key": "factory-pattern",
+                "title": "Documenting Factory Functions in JavaScript",
+                "category": "patterns",
+                "difficulty": "advanced",
+                "tags": [
+                    "factory",
+                    "patterns",
+                    "objects",
+                    "jsdoc",
+                    "clean-code"
+                ],
+                "description": "Factory functions create objects without `new`. Documentation should clarify returned structure and configuration options.",
+                "references": [
+                    {
+                        "type": "MDN",
+                        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer",
+                        "title": "MDN: Object Initializer"
+                    },
+                    {
+                        "type": "Guide",
+                        "url": "https://medium.com/javascript-scene/javascript-factory-functions-with-es6-4d224591a8b1",
+                        "title": "JavaScript Factory Functions with ES6+ - Eric Elliott"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@returns` to describe the created object’s shape.",
+                    "Document configuration parameters clearly.",
+                    "Avoid side effects unless documented."
+                ],
+                "examples": [
+                    {
+                        "title": "User Factory Function",
+                        "code": "/**\n * Creates a user object with methods\n * @param {Object} config\n * @param {string} config.name\n * @param {string} config.email\n * @param {string} [config.role='user']\n * @returns {Object} User with methods\n * @example\n *   const user = createUser({ name: 'Ali', email: 'ali@example.com' });\n *   user.greet(); // 'Hello, Ali'\n */\nfunction createUser({ name, email, role = 'user' }) {\n  return {\n    name,\n    email,\n    role,\n    greet() {\n      console.log(`Hello, ${this.name}`);\n    },\n    isAdmin() {\n      return this.role === 'admin';\n    }\n  };\n}",
+                        "explanation": "The factory returns an object with methods. JSDoc explains input and output clearly. This pattern is clean and avoids `this` complexity."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "object-creation",
+                    "encapsulation",
+                    "functional-programming"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 7,
+                "path": "javascript/event-emitter",
+                "key": "event-emitter",
+                "title": "Documenting Custom Event Emitters",
+                "category": "patterns",
+                "difficulty": "advanced",
+                "tags": [
+                    "event-emitter",
+                    "pubsub",
+                    "events",
+                    "jsdoc",
+                    "clean-code"
+                ],
+                "description": "Custom event emitters enable decoupled communication. Documentation should list all possible events and payload shapes.",
+                "references": [
+                    {
+                        "type": "Node.js Docs",
+                        "url": "https://nodejs.org/api/events.html",
+                        "title": "Node.js: Events Module (EventEmitter)"
+                    },
+                    {
+                        "type": "Stack Overflow",
+                        "url": "https://stackoverflow.com/questions/19931551/how-to-document-custom-events-in-javascript",
+                        "title": "How to document custom events in JS?"
+                    }
+                ],
+                "best_practices": [
+                    "List all `emit` events with `@event` or comment.",
+                    "Document payload structure for each event.",
+                    "Use `on(event, callback)` with `@param` for callback signature."
+                ],
+                "examples": [
+                    {
+                        "title": "Simple Event Emitter",
+                        "code": "/**\n * Simple event emitter class\n * @example\n *   const ee = new EventEmitter();\n *   ee.on('data', (value) => console.log(value));\n *   ee.emit('data', 'hello');\n */\nclass EventEmitter {\n  constructor() {\n    this.events = {};\n  }\n\n  /**\n   * Subscribe to an event\n   * @param {string} event\n   * @param {Function} callback - Called with payload\n   */\n  on(event, callback) {\n    if (!this.events[event]) this.events[event] = [];\n    this.events[event].push(callback);\n  }\n\n  /**\n   * Emit an event with payload\n   * @param {string} event\n   * @param {*} payload - Data to pass to listeners\n   * @emits data - When new data arrives\n   * @emits error - On failure (payload: Error)\n   */\n  emit(event, payload) {\n    if (this.events[event]) {\n      this.events[event].forEach(cb => cb(payload));\n    }\n  }\n}",
+                        "explanation": "The `@emits` tags document which events are fired and what data they carry. This helps consumers know what to listen for."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "pubsub",
+                    "decoupling",
+                    "callbacks"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 8,
+                "path": "javascript/configuration-objects",
+                "key": "configuration-objects",
+                "title": "Documenting Configuration Objects and Options",
+                "category": "functions",
+                "difficulty": "intermediate",
+                "tags": [
+                    "config",
+                    "options",
+                    "objects",
+                    "jsdoc",
+                    "api-design"
+                ],
+                "description": "Functions that accept config objects must document all possible options, types, and defaults clearly.",
+                "references": [
+                    {
+                        "type": "Airbnb Style Guide",
+                        "url": "https://github.com/airbnb/javascript#functions--signature-spacing",
+                        "title": "Airbnb: Function Signatures"
+                    },
+                    {
+                        "type": "MDN",
+                        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions",
+                        "title": "MDN: Functions"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@param` for each option, even nested ones.",
+                    "Mark optional fields with `[ ]`.",
+                    "Group related options in documentation."
+                ],
+                "examples": [
+                    {
+                        "title": "Chart Configuration",
+                        "code": "/**\n * Renders a chart with custom options\n * @param {Object} config\n * @param {string} config.type - 'bar', 'line', 'pie'\n * @param {number[]} config.data - Array of numbers\n * @param {Object} [config.style]\n * @param {string} [config.style.color='blue']\n * @param {boolean} [config.style.animate=true]\n * @param {Function} [config.onClick] - Click handler\n */\nfunction renderChart(config) {\n  // Implementation\n}",
+                        "explanation": "The config object has multiple levels. JSDoc breaks down each field, including nested ones. This prevents invalid or missing options in production."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "api-design",
+                    "flexibility",
+                    "ui-components"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 9,
+                "path": "javascript/polyfills",
+                "key": "polyfills",
+                "title": "Documenting Polyfills and Browser Compatibility",
+                "category": "tooling",
+                "difficulty": "advanced",
+                "tags": [
+                    "polyfill",
+                    "browser",
+                    "compatibility",
+                    "jsdoc",
+                    "legacy"
+                ],
+                "description": "Polyfills add missing features to older browsers. They must be documented to clarify what they patch and why.",
+                "references": [
+                    {
+                        "type": "MDN",
+                        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Polyfill",
+                        "title": "MDN: What is a Polyfill?"
+                    },
+                    {
+                        "type": "GitHub",
+                        "url": "https://github.com/zloirock/core-js",
+                        "title": "core-js: Standard Library of Polyfills"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@see` to link to the native API.",
+                    "Document browser support range.",
+                    "Add `// POLYFILL:` comment for visibility."
+                ],
+                "examples": [
+                    {
+                        "title": "Array.flat() Polyfill",
+                        "code": "/**\n * Polyfill for Array.prototype.flat\n * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat\n * @param {number} [depth=1] - How deep to flatten\n * @returns {Array} New flattened array\n * @note Used for IE11 and older Safari\n */\nif (!Array.prototype.flat) {\n  Array.prototype.flat = function(depth = 1) {\n    return depth > 0\n      ? this.reduce((acc, val) => acc.concat(Array.isArray(val) ? val.flat(depth - 1) : val), [])\n      : this.slice();\n  };\n}",
+                        "explanation": "The polyfill is well-documented with `@see`, parameters, and a `@note` about browser usage. This prevents confusion about why it exists."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "browser-compatibility",
+                    "legacy",
+                    "shims"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 10,
+                "path": "javascript/guard-clauses",
+                "key": "guard-clauses",
+                "title": "Commenting Guard Clauses and Early Returns",
+                "category": "functions",
+                "difficulty": "beginner",
+                "tags": [
+                    "guard-clauses",
+                    "early-return",
+                    "readability",
+                    "clean-code"
+                ],
+                "description": "Guard clauses improve readability by reducing nesting. Comments should explain why a condition leads to early exit.",
+                "references": [
+                    {
+                        "type": "Refactoring.com",
+                        "url": "https://refactoring.com/catalog/replaceNestedConditionalWithGuardClauses.html",
+                        "title": "Replace Nested Conditional with Guard Clauses"
+                    },
+                    {
+                        "type": "Stack Overflow",
+                        "url": "https://stackoverflow.com/questions/10796025/what-is-a-guard-clause",
+                        "title": "What is a guard clause?"
+                    }
+                ],
+                "best_practices": [
+                    "Use `// Guard:` or `// Early return:` to mark guard clauses.",
+                    "Explain invalid states or missing dependencies.",
+                    "Keep guards at the top of the function."
+                ],
+                "examples": [
+                    {
+                        "title": "User Profile Validation",
+                        "code": "function showUserProfile(user) {\n  // Guard: User must exist\n  if (!user) return console.warn('No user provided');\n\n  // Guard: Must have an email\n  if (!user.email) return console.warn('User has no email');\n\n  // Main logic\n  console.log(`Welcome, ${user.name} (${user.email})`);\n}",
+                        "explanation": "Each guard clause is labeled and explains the invalid state. This makes the function easier to read and debug. No deep `if` nesting."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "control-flow",
+                    "validation",
+                    "readability"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 11,
+                "path": "javascript/currying",
+                "key": "currying",
+                "title": "Documenting Curried Functions in JavaScript",
+                "category": "functions",
+                "difficulty": "advanced",
+                "tags": [
+                    "currying",
+                    "functional",
+                    "partial",
+                    "jsdoc",
+                    "clean-code"
+                ],
+                "description": "Curried functions return new functions. Documentation should clarify each step and final return value.",
+                "references": [
+                    {
+                        "type": "MDN",
+                        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Function",
+                        "title": "MDN: Function"
+                    },
+                    {
+                        "type": "Guide",
+                        "url": "https://javascript.info/currying-partials",
+                        "title": "Currying and Partials - JavaScript.info"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@returns {Function}` for intermediate steps.",
+                    "Explain the purpose of partial application.",
+                    "Use `@example` to show step-by-step usage."
+                ],
+                "examples": [
+                    {
+                        "title": "Curried Add Function",
+                        "code": "/**\n * Curried function to add three numbers\n * @param {number} a\n * @returns {Function} Takes b and returns another function\n * @example\n *   const add5 = add(5);\n *   const add5And10 = add5(10);\n *   add5And10(3); // 18\n */\nfunction add(a) {\n  return function(b) {\n    return function(c) {\n      return a + b + c;\n    };\n  };\n}",
+                        "explanation": "The `@returns` explains that each call returns a function. The example shows how to build up the final result. This is essential for functional programming patterns."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "functional-programming",
+                    "partial-application",
+                    "higher-order-functions"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 12,
+                "path": "javascript/deprecation",
+                "key": "deprecation",
+                "title": "Documenting Deprecated Functions and Properties",
+                "category": "maintenance",
+                "difficulty": "intermediate",
+                "tags": [
+                    "deprecation",
+                    "migration",
+                    "jsdoc",
+                    "versioning",
+                    "clean-code"
+                ],
+                "description": "Deprecated code should be marked clearly to guide teams toward newer alternatives.",
+                "references": [
+                    {
+                        "type": "JSDoc",
+                        "url": "https://jsdoc.app/tags-deprecated.html",
+                        "title": "JSDoc: @deprecated"
+                    },
+                    {
+                        "type": "SemVer",
+                        "url": "https://semver.org/",
+                        "title": "Semantic Versioning"
+                    }
+                ],
+                "best_practices": [
+                    "Use `@deprecated` tag with version number.",
+                    "Explain why it’s deprecated.",
+                    "Suggest a replacement function."
+                ],
+                "examples": [
+                    {
+                        "title": "Deprecated Function with Replacement",
+                        "code": "/**\n * @deprecated since v2.0.0. Use `calculateTotalV2` instead.\n * Old calculation method had rounding errors.\n */\nfunction calculateTotal(items) {\n  console.warn('calculateTotal is deprecated');\n  return items.reduce((a, b) => a + b.price, 0);\n}",
+                        "explanation": "The `@deprecated` tag includes version and reason. A warning is logged. IDEs will usually strike through this function, guiding developers to the new version."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "versioning",
+                    "migration",
+                    "technical-debt"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
+            },
+            {
+                "id": 13,
+                "path": "javascript/performance-optimization",
+                "key": "performance-optimization",
+                "title": "Commenting Performance Optimizations",
+                "category": "performance",
+                "difficulty": "advanced",
+                "tags": [
+                    "performance",
+                    "optimization",
+                    "memoization",
+                    "jsdoc",
+                    "clean-code"
+                ],
+                "description": "Performance tweaks (like memoization) should be documented to prevent removal during refactoring.",
+                "references": [
+                    {
+                        "type": "Google Developers",
+                        "url": "https://developers.google.com/web/fundamentals/performance",
+                        "title": "Web Performance Best Practices"
+                    },
+                    {
+                        "type": "MDN",
+                        "url": "https://developer.mozilla.org/en-US/docs/Web/Performance",
+                        "title": "MDN: Web Performance"
+                    }
+                ],
+                "best_practices": [
+                    "Use `// OPTIMIZE:` to mark intentional performance code.",
+                    "Explain the bottleneck being solved.",
+                    "Avoid premature optimization without comment."
+                ],
+                "examples": [
+                    {
+                        "title": "Memoized Fibonacci",
+                        "code": "/**\n * Memoized Fibonacci to avoid exponential recursion\n * @param {number} n\n * @returns {number}\n * @optimize Caches results to prevent recalculating\n */\nconst fib = (() => {\n  const cache = {};\n  return function(n) {\n    if (n in cache) return cache[n];\n    if (n <= 1) return n;\n    cache[n] = fib(n - 1) + fib(n - 2);\n    return cache[n];\n  };\n})();",
+                        "explanation": "The `@optimize` comment explains why memoization is used. Without this, a new developer might 'simplify' it and break performance."
+                    }
+                ],
+                "image_url": null,
+                "related_topics": [
+                    "algorithms",
+                    "caching",
+                    "recursion"
+                ],
+                "created_at": "2025-04-05",
+                "language": "en"
             }
         ]
     },
@@ -204,7 +689,7 @@
             {
                 "id": 1,
                 "path": "vue/reactivity",
-                "key" : "reactivity",
+                "key": "reactivity",
                 "title": "Documenting Reactivity in Vue 3 with Composition API",
                 "category": "reactivity",
                 "difficulty": "intermediate",
@@ -262,7 +747,7 @@
             {
                 "id": 2,
                 "path": "vue/composables",
-                "key" : "composables",
+                "key": "composables",
                 "title": "Documenting Custom Composables in Vue",
                 "category": "composables",
                 "difficulty": "intermediate",
@@ -315,7 +800,7 @@
             {
                 "id": 3,
                 "path": "vue/component-props",
-                "key" : "component-props",
+                "key": "component-props",
                 "title": "Documenting Props in Vue Components",
                 "category": "components",
                 "difficulty": "beginner",
@@ -363,7 +848,7 @@
             {
                 "id": 4,
                 "path": "vue/emits",
-                "key" : "emits",
+                "key": "emits",
                 "title": "Documenting Emits in Vue Components",
                 "category": "components",
                 "difficulty": "beginner",
@@ -411,7 +896,7 @@
             {
                 "id": 5,
                 "path": "vue/define-options",
-                "key" : "define-options",
+                "key": "define-options",
                 "title": "Documenting Component Options with defineOptions",
                 "category": "components",
                 "difficulty": "advanced",
@@ -452,7 +937,7 @@
             {
                 "id": 6,
                 "path": "vue/typescript-integration",
-                "key" : "typescript-integration",
+                "key": "typescript-integration",
                 "title": "Documenting Vue Components with TypeScript and JSDoc",
                 "category": "typescript",
                 "difficulty": "advanced",
@@ -499,7 +984,7 @@
             {
                 "id": 7,
                 "path": "vue/lifecycle-hooks",
-                "key" : "lifecycle-hooks",
+                "key": "lifecycle-hooks",
                 "title": "Commenting Lifecycle Hooks in Vue",
                 "category": "components",
                 "difficulty": "beginner",
@@ -541,7 +1026,7 @@
             {
                 "id": 8,
                 "path": "vue/v-model",
-                "key" : "v-model",
+                "key": "v-model",
                 "title": "Documenting Custom v-model in Vue",
                 "category": "components",
                 "difficulty": "intermediate",
@@ -583,7 +1068,7 @@
             {
                 "id": 9,
                 "path": "vue/plugins",
-                "key" : "plugins",
+                "key": "plugins",
                 "title": "Documenting Vue Plugins and Installers",
                 "category": "architecture",
                 "difficulty": "advanced",
@@ -625,7 +1110,7 @@
             {
                 "id": 10,
                 "path": "vue/testing-utilities",
-                "key" : "testing-utilities",
+                "key": "testing-utilities",
                 "title": "Documenting Test Utilities in Vue Projects",
                 "category": "testing",
                 "difficulty": "intermediate",
@@ -1119,7 +1604,7 @@
             {
                 "id": 1,
                 "path": "react/props",
-                "key" : "props",
+                "key": "props",
                 "title": "Documenting Component Props in React",
                 "category": "components",
                 "difficulty": "beginner",
@@ -1173,7 +1658,7 @@
             {
                 "id": 2,
                 "path": "react/hooks",
-                "key" : "hooks",
+                "key": "hooks",
                 "title": "Documenting Custom Hooks in React",
                 "category": "hooks",
                 "difficulty": "intermediate",
@@ -1226,7 +1711,7 @@
             {
                 "id": 3,
                 "path": "react/context",
-                "key" : "context",
+                "key": "context",
                 "title": "Documenting React Context and Providers",
                 "category": "state-management",
                 "difficulty": "advanced",
@@ -1274,7 +1759,7 @@
             {
                 "id": 4,
                 "path": "react/error-boundaries",
-                "key" : "error-boundaries",
+                "key": "error-boundaries",
                 "title": "Documenting Error Boundaries in React",
                 "category": "error-handling",
                 "difficulty": "intermediate",
@@ -1317,7 +1802,7 @@
             {
                 "id": 5,
                 "path": "react/memoization",
-                "key" : "memoization",
+                "key": "memoization",
                 "title": "Documenting useMemo and useCallback",
                 "category": "performance",
                 "difficulty": "intermediate",
@@ -1365,7 +1850,7 @@
             {
                 "id": 6,
                 "path": "react/forward-ref",
-                "key" : "forward-ref",
+                "key": "forward-ref",
                 "title": "Documenting Components Using forwardRef",
                 "category": "components",
                 "difficulty": "advanced",
@@ -1408,7 +1893,7 @@
             {
                 "id": 7,
                 "path": "react/suspense",
-                "key" : "suspense",
+                "key": "suspense",
                 "title": "Documenting Suspense and Lazy Components",
                 "category": "performance",
                 "difficulty": "intermediate",
@@ -1456,7 +1941,7 @@
             {
                 "id": 8,
                 "path": "react/testing-utilities",
-                "key" : "testing-utilities",
+                "key": "testing-utilities",
                 "title": "Documenting Test Utilities in React Projects",
                 "category": "testing",
                 "difficulty": "intermediate",
@@ -1498,7 +1983,7 @@
             {
                 "id": 9,
                 "path": "react/conditional-rendering",
-                "key" : "conditional-rendering",
+                "key": "conditional-rendering",
                 "title": "Commenting Complex Conditional Rendering",
                 "category": "components",
                 "difficulty": "beginner",
@@ -1540,7 +2025,7 @@
             {
                 "id": 10,
                 "path": "react/event-handlers",
-                "key" : "event-handlers",
+                "key": "event-handlers",
                 "title": "Documenting Event Handlers and Callbacks",
                 "category": "components",
                 "difficulty": "beginner",
@@ -2025,7 +2510,7 @@
             {
                 "id": 1,
                 "path": "typescript/interfaces",
-                "key" : "interfaces",
+                "key": "interfaces",
                 "title": "Documenting Interfaces in TypeScript",
                 "category": "types",
                 "difficulty": "beginner",
@@ -2079,7 +2564,7 @@
             {
                 "id": 2,
                 "path": "typescript/generics",
-                "key" : "generics",
+                "key": "generics",
                 "title": "Documenting Generic Types in TypeScript",
                 "category": "types",
                 "difficulty": "advanced",
@@ -2132,7 +2617,7 @@
             {
                 "id": 3,
                 "path": "typescript/types",
-                "key" : "types",
+                "key": "types",
                 "title": "Documenting Type Aliases in TypeScript",
                 "category": "types",
                 "difficulty": "beginner",
@@ -2176,7 +2661,7 @@
             {
                 "id": 4,
                 "path": "typescript/functions",
-                "key" : "functions",
+                "key": "functions",
                 "title": "Documenting Functions with TypeScript and JSDoc",
                 "category": "functions",
                 "difficulty": "beginner",
@@ -2225,7 +2710,7 @@
             {
                 "id": 5,
                 "path": "typescript/classes",
-                "key" : "classes",
+                "key": "classes",
                 "title": "Documenting Classes and Constructors in TypeScript",
                 "category": "classes",
                 "difficulty": "intermediate",
@@ -2269,7 +2754,7 @@
             {
                 "id": 6,
                 "path": "typescript/enums",
-                "key" : "enums",
+                "key": "enums",
                 "title": "Documenting Enums in TypeScript",
                 "category": "types",
                 "difficulty": "beginner",
@@ -2312,7 +2797,7 @@
             {
                 "id": 7,
                 "path": "typescript/modules",
-                "key" : "modules",
+                "key": "modules",
                 "title": "Documenting TypeScript Modules and Exports",
                 "category": "modularity",
                 "difficulty": "intermediate",
@@ -2356,7 +2841,7 @@
             {
                 "id": 8,
                 "path": "typescript/utility-types",
-                "key" : "utility-types",
+                "key": "utility-types",
                 "title": "Documenting Utility Types in TypeScript",
                 "category": "types",
                 "difficulty": "advanced",
@@ -2398,7 +2883,7 @@
             {
                 "id": 9,
                 "path": "typescript/declaration-files",
-                "key" : "declaration-files",
+                "key": "declaration-files",
                 "title": "Documenting Declaration Files (.d.ts)",
                 "category": "tooling",
                 "difficulty": "advanced",
@@ -2442,7 +2927,7 @@
             {
                 "id": 10,
                 "path": "typescript/tsconfig",
-                "key" : "tsconfig",
+                "key": "tsconfig",
                 "title": "Documenting tsconfig.json Settings",
                 "category": "tooling",
                 "difficulty": "intermediate",

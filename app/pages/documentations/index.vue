@@ -14,7 +14,7 @@ onMounted(() => {
     if (activeCategory && activeCategory !== '') {
         findData(activeCategory);
         value.value = activeCategory;
-    }else {
+    } else {
         findData(unref(value.value));
     }
 });
@@ -50,7 +50,21 @@ function findData(dataName) {
                     class="w-48 hover:cursor-pointer dark:text-white border-cyan-400" />
             </div>
             <div class="mt-10 p-3">
-                <div v-if="isLoading" class="dark:text-white">Loading data</div>
+                <div v-if="isLoading" class="dark:text-white">
+                    <div>
+                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 auto-rows-fr">
+                            <li v-for="(value,index) in 6" :key="index" class="bg-white rounded-lg dark:bg-transparent w-[20rem]">
+                                <div class="flex w-full items-center gap-4 p-3">
+                                    <USkeleton class="min-h-12 min-w-12 rounded-full" />
+                                    <div class="grid gap-2 w-full">
+                                        <USkeleton class="h-4 w-full" />
+                                        <USkeleton class="h-4 w-full" />
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
                 <div v-else-if="isError" class="dark:text-white">{{ isError }}</div>
                 <ul v-else class="grid grid-cols-1 md:grid-cols-2 gap-3 auto-rows-fr">
                     <li v-for="(value, index) in activeData.Data" :key="index" class="h-full">
